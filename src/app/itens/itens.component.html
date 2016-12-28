@@ -1,0 +1,44 @@
+<!--<p>
+  itens works!
+</p>-->
+    <div class="container-fluid">
+      <div >
+        <form (ngSubmit)="onSubmit()" #itemForm="ngForm">
+          <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" id="nome"
+                    
+                   [(ngModel)]="item.nome" name="nome"
+                   #nome="ngModel"  [value]="selectedItem?.nome" >
+            <div [hidden]="nome.valid || nome.pristine"
+                 class="alert alert-danger">
+              nome is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="valor">Valor</label>
+            <input type="text" class="form-control" id="valor"
+                   [(ngModel)]="item.valor" name="valor"  [value]="selectedItem?.valor">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-default" >Inserir</button>
+            <button type="button" class="btn btn-default" (click)="novoItem(); itemForm.reset()">Novo</button>
+          </div>  
+        </form>
+      </div>
+    <div class="form-group">
+      <div class="card">
+          <div class="card-block">
+            <h4 class="card-title">Lista de Itens</h4>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let item of itens">
+              <span class="tag tag-default tag-pill float-xs-right"> {{ item.valor }}</span>
+              <a class="collection-item"
+               (click)="onSelect(item)">
+            {{ item.nome }}
+            </a>
+            </li>
+          </ul>
+        </div>
+      </div>  
