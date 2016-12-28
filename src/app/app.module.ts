@@ -11,13 +11,14 @@ import { routing } from './app.routing';
 import { ItensService } from './itens/itens.service';
 import { DataService } from './services/data.service'; 
 import { ItemNaoEncontradoComponent } from './item-nao-encontrado/item-nao-encontrado.component';
+import { MensagemComponent } from './mensagem/mensagem.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
     ItensComponent, 
-    ItemNaoEncontradoComponent
+    ItemNaoEncontradoComponent, MensagemComponent
   ],
   imports: [
     BrowserModule,
