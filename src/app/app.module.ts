@@ -9,16 +9,19 @@ import { HomeComponent } from './home/home.component';
 import { ItensComponent } from './itens/itens.component';
 import { routing } from './app.routing';
 import { ItensService } from './itens/itens.service';
-import { DataService } from './services/data.service'; 
+import { OrdensService } from './ordem/ordens.service';
+import { DataServiceItem } from './services/data.service.item'; 
+import { DataServiceOrdem } from './services/data.service.ordem'; 
 import { ItemNaoEncontradoComponent } from './item-nao-encontrado/item-nao-encontrado.component';
 import { MensagemComponent } from './mensagem/mensagem.component';
+import { OrdemComponent } from './ordem/ordem.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
     ItensComponent, 
-    ItemNaoEncontradoComponent, MensagemComponent
+    ItemNaoEncontradoComponent, MensagemComponent, OrdemComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,9 @@ import { MensagemComponent } from './mensagem/mensagem.component';
   ],
   providers: [
   ItensService,
-  DataService ],
+  OrdensService,
+  DataServiceItem,
+  DataServiceOrdem ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

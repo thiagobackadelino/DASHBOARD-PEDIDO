@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 var PouchDB = require('pouchdb');
 
 @Injectable()
-export class DataService {
+export class DataServiceItem{
   
   db: any;
   username: any;
@@ -23,7 +23,7 @@ export class DataService {
   constructor(private _http: Http, private zone: NgZone) { 
  
     // database name
-    this.db = new PouchDB('dashboard-pedido');
+    this.db = new PouchDB('dashboard-pedido-item');
     
     // cloudant login details
     this.username = 'sonic';
@@ -31,7 +31,7 @@ export class DataService {
     
     // cloudant, couchdb, couchbase remote url
     // eg - https://<your_host>.cloudant.com/todo
-    this.remote = 'http://127.0.0.1:5984/dashboard-pedido';
+    this.remote = 'http://127.0.0.1:5984/dashboard-pedido-item';
 
     // cloudant, couchdb, couchbase remote url
     // applicable when username/password set. 

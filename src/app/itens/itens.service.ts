@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
  
 import { Item } from './item';
-import { DataService } from '../services/data.service';
+import { DataServiceItem } from '../services/data.service.item';
 
 @Injectable() 
 export class ItensService {
@@ -9,7 +9,7 @@ export class ItensService {
     //private itens: Item[] = [];
     private _id: string; 
     data: any = [];
-    constructor( public dataService: DataService ){ 
+    constructor( public dataService: DataServiceItem ){ 
     }
 
     getItens() {
