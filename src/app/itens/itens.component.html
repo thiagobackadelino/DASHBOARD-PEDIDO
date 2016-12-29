@@ -2,8 +2,9 @@
   itens works!
 </p>-->
     <div class="container-fluid">
+      <app-mensagem x={{classe}}></app-mensagem>
       <div >
-        <form (ngSubmit)="onSubmit()" #itemForm="ngForm">
+        <form (submit)="addData($event)" #itemForm="ngForm">
           <div class="form-group">
             <label for="nome">Nome</label>
             <input type="text" class="form-control" id="nome"
@@ -23,7 +24,7 @@
           <div class="form-group">
             <button type="submit" class="btn btn-default" >Inserir</button>
             <button type="button" class="btn btn-default" (click)="novoItem(); itemForm.reset()">Novo</button>
-          </div>  
+          </div>   
         </form>
       </div>
     <div class="form-group">

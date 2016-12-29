@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output, EventEmitter} from '@angular/core';
  
 import { Item } from './item';
 import { ItensService } from './itens.service';
@@ -11,31 +11,40 @@ import { ItensService } from './itens.service';
 export class ItensComponent implements OnInit {
 
   itens: any = [];
-  item  : any = []; 
+  item  : any = {}; 
   selectedItem :any = []
+  @Output() mudouValor = new EventEmitter();
+  classe : string ;
 
   constructor(private itensService: ItensService) { 
          this.novoItem();
          this.novoSelected();
    }
 
-  ngOnInit() {
-    this.getItens() ;
+  ngOnInit() { 
+     this.itensService.initCall();
   }
  
+  ngAfterViewInit() { 
+      this. getItens();
+  }
 
-  onSubmit() { 
-    
+
+   addData(event) { 
+    event.preventDefault();
     if(this.selectedItem){
       this.item._id = this.selectedItem._id;
     }
      this.itensService.addItem(this.item);
+     this.itens = this.getItens();
      this.novoItem();
      this.novoSelected();
+     this.mudouValor.emit({novoValor: this.classe = "alert-success"});
   }
 
   novoItem() {
     this.item  = new Item(); 
+    this.mudouValor.emit({novoValor: this.classe = ""});
   }
 
   novoSelected() {
