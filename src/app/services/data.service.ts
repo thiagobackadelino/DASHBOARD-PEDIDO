@@ -46,7 +46,7 @@ export class DataService {
     };
 
     this.db.sync(this.remote, options);
-    this.db.setMaxListeners(30);
+    this.db.setMaxListeners(30); 
     
   }
 
@@ -76,8 +76,7 @@ export class DataService {
         resolve(this.data);
         
         this.db.changes({live: true, since: 'now', include_docs: 
-          true}).on('change', (change) => {
-            console.log("--------------------------------------");
+          true}).on('change', (change) => { 
               this.handleChange(change);
         });
 
@@ -123,13 +122,13 @@ export class DataService {
  
   }
  
- handleChange(change){
-   console.log(change);
+ handleChange(change){  
+
     let changedDoc = null;
-    let changedIndex = null;
-    console.log(this.data.length);
-    this.data.forEach((doc, index) => {
-             console.log(doc._id+"------------"+index+"--------------------------"+change.id);
+    let changedIndex = null; 
+
+    this.data.forEach((doc, index) => { 
+
       if(doc._id === change.id){
         changedDoc = doc;
         changedIndex = index;
@@ -144,16 +143,17 @@ export class DataService {
     else {
  
       //A document was updated
-      if(changedDoc){
+      if(changedDoc){ 
         this.data[changedIndex] = change.doc;
       } 
       //A document was added
-      else {
+      else { 
         this.data.push(change.doc);                
       }
  
     }
  
 } 
+
 
 }
