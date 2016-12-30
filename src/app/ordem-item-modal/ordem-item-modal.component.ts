@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
+
+import { Ordem } from '../ordem/ordem';
+import { OrdensService } from '../ordem/ordens.service';
 
 @Component({
   selector: 'app-ordem-item-modal',
@@ -6,10 +9,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ordem-item-modal.component.css']
 })
 export class OrdemItemModalComponent implements OnInit {
+ 
+  ordem = Ordem;
 
-  constructor() { }
+  constructor(private ordensService : OrdensService) {
+
+   }
 
   ngOnInit() {
+    OrdensService.emitirOrdemSelecionada.subscribe(
+      ordemSelecionada => this.ordem = ordemSelecionada
+    );
   }
 
 }

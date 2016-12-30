@@ -12,9 +12,14 @@ export class OrdemComponent implements OnInit {
   
   @Input('n') ordem  :  Ordem[] ;
   
-  constructor() {}
+  constructor(private ordensService : OrdensService) {}
 
   ngOnInit() { 
+  }
+
+  onSelect(ordem){
+    //alert('oi'+ordem.nome);
+    this.ordensService.onSelect(ordem);
   }
 
 }

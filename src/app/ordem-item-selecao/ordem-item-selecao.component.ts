@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ItensService } from '../itens/itens.service';
+
 @Component({
   selector: 'app-ordem-item-selecao',
   templateUrl: './ordem-item-selecao.component.html',
@@ -7,9 +9,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrdemItemSelecaoComponent implements OnInit {
 
-  constructor() { }
+  itens: any = []; 
 
-  ngOnInit() {
+  constructor(private itensService: ItensService) { }
+
+  ngOnInit() { 
+     this.itensService.initCall();
   }
+
+  ngAfterViewInit() { 
+      this. getItens();
+  }
+
+    getItens() {
+    this.itensService.getItens().then((data) => {
+      this.itens = data;   
+    }).catch((ex) => {
+      console.error('Error fetching users', ex);
+    });
+
+  }
+
+
 
 }
