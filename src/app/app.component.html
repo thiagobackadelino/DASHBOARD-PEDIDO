@@ -12,10 +12,11 @@
         <a class="nav-link" routerLink="/login">LOGIN</a>
       </li>
     </ul>
-    <form class="form-inline float-xs-right">
-    <input class="form-control" type="text" placeholder="Incluir Comanda">
+    <form (submit)="addData($event)" #ordemForm="ngForm" class="form-inline float-xs-right">
+    <input class="form-control" type="text" placeholder="Incluir Comanda" [(ngModel)]="ordem.nome" name="nome"
+                   #nome="ngModel">
     <button class="btn btn-outline-success" type="submit">Criar</button>
   </form>
   </div>
-</nav>  
+</nav>   
 <router-outlet></router-outlet>

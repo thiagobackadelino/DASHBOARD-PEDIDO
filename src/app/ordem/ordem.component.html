@@ -1,0 +1,22 @@
+    <div class="col-sm-3"  >
+          <div class="card">
+            <!--<img class="card-img-top" src="..." alt="Card image cap">-->
+            <div class="card-block alert alert-success">
+              <h4 class="card-title "> {{ordem.nome}} </h4> 
+              <!--<p>Index: {{i}} </p> -->
+              <p >{{  ordem._id  | date }}</p>
+              <p>{{  ordem._id  | date:'shortTime' }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+               <app-ordem-item> </app-ordem-item>     
+            </ul>
+            <div class="card-block">
+                <button type="button" class="btn btn-outline-secondary btn-lg btn-block"
+                 data-toggle="modal" data-target="#myModal" (click)="onSelect(ordem);"
+                  >Adicionar</button>
+                <button type="button" class="btn btn-outline-warning btn-lg btn-block"
+                >Cancelar</button>
+            </div>
+          </div>
+        </div> 
+<app-ordem-item-modal></app-ordem-item-modal>

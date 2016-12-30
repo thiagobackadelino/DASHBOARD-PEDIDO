@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 var PouchDB = require('pouchdb');
 
 @Injectable()
-export class DataService {
+export class DataServiceOrdem{
   
   db: any;
   username: any;
@@ -23,15 +23,15 @@ export class DataService {
   constructor(private _http: Http, private zone: NgZone) { 
  
     // database name
-    this.db = new PouchDB('dashboard-pedido');
+    this.db = new PouchDB('dashboard-pedido-ordem');
     
     // cloudant login details
     this.username = 'sonic';
     this.password = 'sonic';    
     
     // cloudant, couchdb, couchbase remote url
-    // eg - https://<your_host>.cloudant.com/todo
-    this.remote = 'http://127.0.0.1:5984/dashboard-pedido';
+    // eg - https://<your_host>.cloudant.com/todohttp://sonic:sonic@127.0.0.1:5984/
+    this.remote = 'http://sonic:sonic@localhost:5984/dashboard-pedido-ordem';
 
     // cloudant, couchdb, couchbase remote url
     // applicable when username/password set. 
@@ -64,33 +64,8 @@ export class DataService {
     this.db.remove(id);
   }
 
-  getDocumentById(id) {
-    return new Promise(resolve => {
-      this.db.get(id).then((result) => {
-        this.data = []; 
-        //console.log(result);
-        this.data.push(result); 
- 
-        this.data.reverse();
-
-        resolve(this.data);
-        
-        this.db.changes({live: true, since: 'now', include_docs: 
-          true}).on('change', (change) => { 
-              this.handleChange(change);
-        });
-
-      }).catch((error) => {
- 
-        console.log(error);
- 
-      }); 
- 
-    });
- 
-  }
-
-  getDocumentos() {
+  
+  getOrdens() {
     return new Promise(resolve => {
       this.db.allDocs({
         include_docs: true,
@@ -155,5 +130,6 @@ export class DataService {
  
 } 
 
+} 
 
-}
+ 
