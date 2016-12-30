@@ -30,8 +30,8 @@ export class DataServiceOrdem{
     this.password = 'sonic';    
     
     // cloudant, couchdb, couchbase remote url
-    // eg - https://<your_host>.cloudant.com/todo
-    this.remote = 'http://127.0.0.1:5984/dashboard-pedido-ordem';
+    // eg - https://<your_host>.cloudant.com/todohttp://sonic:sonic@127.0.0.1:5984/
+    this.remote = 'http://sonic:sonic@localhost:5984/dashboard-pedido-ordem';
 
     // cloudant, couchdb, couchbase remote url
     // applicable when username/password set. 

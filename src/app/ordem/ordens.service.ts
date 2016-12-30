@@ -18,9 +18,9 @@ export class OrdensService {
  
  
 
-    addItem(item: any){  
-        item._id = new Date().toISOString();
-        this.dataService.addDocument(item);  
+    addItem(ordem: Ordem){   
+        ordem._id = new Date().toISOString();
+        this.dataService.addDocument(ordem);  
         }
 
      getOrdens() { 

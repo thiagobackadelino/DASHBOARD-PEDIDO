@@ -1,6 +1,10 @@
     export class Ordem {
-      constructor() {  }
 
         public _id: string;
-        public nome: string; 
+        public nome: string;
+        public status: boolean = true;
+
+      constructor() {  }
+
+
     }

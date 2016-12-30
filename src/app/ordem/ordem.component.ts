@@ -10,10 +10,11 @@ import { OrdensService } from './ordens.service';
 })
 export class OrdemComponent implements OnInit { 
   
-  @Input('n') nome  : string ;
-  constructor() { }
+  @Input('n') ordem  :  Ordem[] ;
+  
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() { 
   }
 
 }
