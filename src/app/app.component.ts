@@ -11,13 +11,14 @@ import { OrdensService } from './ordem/ordens.service';
 })
 export class AppComponent implements OnInit {
   ordem  : Ordem;  
-  
-  constructor(private ordensService: OrdensService ) { 
+  registerForm: FormGroup;
+  constructor(private ordensService: OrdensService,private formBuilder: FormBuilder ) { 
  
    }
 
   ngOnInit(){
       this.novaOrdem();
+
   }
 
    addData(event) {  

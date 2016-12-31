@@ -18,14 +18,22 @@ import { MensagemComponent } from './mensagem/mensagem.component';
 import { OrdemComponent } from './ordem/ordem.component';
 import { OrdemItemComponent } from './ordem-item/ordem-item.component';
 import { OrdemItemModalComponent } from './ordem-item-modal/ordem-item-modal.component';
-import { OrdemItemSelecaoComponent } from './ordem-item-selecao/ordem-item-selecao.component'; 
+import { OrdemItemSelecaoComponent } from './ordem-item-selecao/ordem-item-selecao.component';
+import { SeletorQuantidadeComponent } from './seletor-quantidade/seletor-quantidade.component';  
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
     ItensComponent, 
-    ItemNaoEncontradoComponent, MensagemComponent, OrdemComponent, OrdemItemComponent, OrdemItemModalComponent, OrdemItemSelecaoComponent
+    ItemNaoEncontradoComponent,
+     MensagemComponent,
+      OrdemComponent,
+       OrdemItemComponent,
+        OrdemItemModalComponent, 
+        OrdemItemSelecaoComponent,
+         SeletorQuantidadeComponent
   ],
   imports: [
     BrowserModule,

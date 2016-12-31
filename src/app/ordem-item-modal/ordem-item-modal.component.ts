@@ -13,13 +13,17 @@ export class OrdemItemModalComponent implements OnInit {
   ordem = Ordem;
 
   constructor(private ordensService : OrdensService) {
-
-   }
-
-  ngOnInit() {
     OrdensService.emitirOrdemSelecionada.subscribe(
       ordemSelecionada => this.ordem = ordemSelecionada
     );
+   }
+
+  ngOnInit() {
+
+  }
+
+  editarItem(){
+    this.ordensService.editarItem();
   }
 
 }

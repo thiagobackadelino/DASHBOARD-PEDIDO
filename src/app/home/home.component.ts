@@ -12,10 +12,15 @@ export class HomeComponent implements OnInit {
 
   ordens: any = [];
   
-  constructor(private ordensService: OrdensService) { }
+  constructor(private ordensService: OrdensService) {
+           OrdensService.emitirOrdemAlterada.subscribe(
+      ordemAlterada => this.ordens = this.getOrdens()
+    );
+   }
 
   ngOnInit() {
     this.ordensService.initCall();
+
   }
 
     ngAfterViewInit() { 

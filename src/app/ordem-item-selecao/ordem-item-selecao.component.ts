@@ -1,4 +1,6 @@
+import { OrdensService } from './../ordem/ordens.service';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators ,ReactiveFormsModule,FormGroup ,FormControl} from '@angular/forms';
 
 import { ItensService } from '../itens/itens.service';
 
@@ -10,10 +12,12 @@ import { ItensService } from '../itens/itens.service';
 export class OrdemItemSelecaoComponent implements OnInit {
 
   itens: any = []; 
+  valorInicial : number = 0; 
 
-  constructor(private itensService: ItensService) { }
 
-  ngOnInit() { 
+  constructor(private itensService: ItensService, private ordensService: OrdensService,private formBuilder: FormBuilder) { }
+
+  ngOnInit() {  
      this.itensService.initCall();
   }
 
@@ -30,6 +34,9 @@ export class OrdemItemSelecaoComponent implements OnInit {
 
   }
 
+  montarPedido(event,item){
+    this.ordensService.montarPedido(event,item);
+  }
 
 
 }

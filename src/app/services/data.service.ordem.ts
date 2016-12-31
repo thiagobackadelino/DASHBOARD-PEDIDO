@@ -96,6 +96,32 @@ export class DataServiceOrdem{
     });
  
   }
+
+    getDocumentById(id) {
+    return new Promise(resolve => {
+      this.db.get(id).then((result) => {
+        this.data = []; 
+        //console.log(result);
+        this.data.push(result); 
+ 
+        this.data.reverse();
+
+        resolve(this.data);
+        
+        this.db.changes({live: true, since: 'now', include_docs: 
+          true}).on('change', (change) => { 
+              this.handleChange(change);
+        });
+
+      }).catch((error) => {
+ 
+        console.log(error);
+ 
+      }); 
+ 
+    });
+ 
+  }
  
  handleChange(change){  
 
