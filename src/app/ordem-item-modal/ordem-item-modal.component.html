@@ -7,6 +7,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title" id="myModalLabel">Pedido: {{ordem.nome}}  </h4>
+        <!--<h1 *ngFor="let item of ordem.itens">{{item.nome}}</h1>-->
       </div>
       <div class="modal-body">
             <div class="form-group">
@@ -15,14 +16,14 @@
             <h4 class="card-title">Lista de Itens Disponiveis</h4>
           </div>
           <ul class="list-group list-group-flush">
-            <app-ordem-item-selecao></app-ordem-item-selecao>
+            <app-ordem-item-selecao   ></app-ordem-item-selecao>
           </ul>
         </div>
       </div>  
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary" (click)="editarItem();" data-dismiss="modal">Salvar</button>
+        <button type="button" class="btn btn-secondary"    data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" (click)="editarItem(ordem._id);" data-dismiss="modal">Salvar</button>
       </div>
     </div>
   </div>

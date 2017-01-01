@@ -1,5 +1,5 @@
 <li class="list-group-item" *ngFor="let item of itens">
-              <span class="tag tag-default tag-pill float-xs-right">valor: {{ item.valor }}</span>
+             <h5> <span class="tag tag-success float-xs-right">valor: {{ item.valor }}</span></h5>
               <a class="collection-item"> 
             {{ item.nome }}
 <app-seletor-quantidade [valor]="valorInicial"(mudouValor)="montarPedido($event,item)"></app-seletor-quantidade>

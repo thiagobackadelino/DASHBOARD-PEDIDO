@@ -12,7 +12,7 @@ export class OrdensService {
     comparativo: number = 0;
     ordem : Ordem;
 
-    static emitirOrdemSelecionada = new EventEmitter<string>(); 
+    static emitirOrdemSelecionada = new EventEmitter<Ordem>(); 
     static emitirOrdemAlterada = new EventEmitter<Ordem>(); 
 
     constructor( public dataService: DataServiceOrdem ){ 
@@ -27,7 +27,8 @@ export class OrdensService {
 
     addItem(ordem: Ordem){   
         ordem._id = new Date().toISOString() + Math.random();
-        ordem.data = new Date();
+        ordem.data = new Date(); 
+        ordem.status = "0";
         this.dataService.addDocument(ordem);  
         }
 
@@ -35,8 +36,8 @@ export class OrdensService {
         return this.dataService.getOrdens();
     }
 
-    onSelect(ordem){ 
-         this.ordem = ordem;
+    onSelect(ordem){  
+        //console.log(ordem);
         OrdensService.emitirOrdemSelecionada.emit(ordem);
     }
 
@@ -90,8 +91,7 @@ export class OrdensService {
             } 
     }
 
-    removeItensZeradosDaLista(item){
- console.log("existeItemZeradomNaListaVamosRemover" + item.nome); 
+    removeItensZeradosDaLista(item){ 
          for(var x in this.listaDeItensDoPedido){
             if(this.listaDeItensDoPedido[x]._id == item._id){
                 this.listaDeItensDoPedido.splice(x,1);
@@ -101,11 +101,11 @@ export class OrdensService {
              
     }
 
-    editarItem(){   
-             this.getDocumentById(this.ordem._id).then((data) => {
+    editarItem(id){   
+             this.getDocumentById(id).then((data) => {
                this.data = data[0]; 
-                   console.log( this.data); 
-                    console.log(JSON.stringify(this.data)); 
+                  // console.log( this.data); 
+                   // console.log(JSON.stringify(this.data)); 
                     this.data.itens = this.listaDeItensDoPedido; 
                this.dataService.addDocument(this.data); 
                OrdensService.emitirOrdemAlterada.emit(this.data);
@@ -118,5 +118,18 @@ export class OrdensService {
       return this.dataService.getDocumentById(id);
     }
 
+    
+    alterarStatus(id,status){   
+             this.getDocumentById(id).then((data) => {
+               this.data = data[0]; 
+                   console.log( status);  
+                    this.data.status = status; 
+                     console.log(JSON.stringify(this.data)); 
+               this.dataService.addDocument(this.data);  
+               OrdensService.emitirOrdemAlterada.emit(this.data);
+            }).catch((ex) => {
+              console.error('Error fetching ', ex);
+            }); 
+        }  
 
 }

@@ -4,7 +4,7 @@ import { Item } from './../itens/item';
 
         public _id: string;
         public nome: string;
-        public status: boolean = true;
+        public status: string;
         public data: Date;
 
         public itens: any = [];

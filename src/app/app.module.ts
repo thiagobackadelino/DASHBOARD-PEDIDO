@@ -46,7 +46,8 @@ import { SeletorQuantidadeComponent } from './seletor-quantidade/seletor-quantid
   ItensService,
   OrdensService,
   DataServiceItem,
-  DataServiceOrdem ],
+  DataServiceOrdem,
+  OrdemItemSelecaoComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

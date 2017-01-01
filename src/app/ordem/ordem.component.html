@@ -1,26 +1,34 @@
-    <div class="col-sm-3"  >
-          <div class="card">
-            <!--<img class="card-img-top" src="..." alt="Card image cap">-->
-            <div class="card-block alert alert-success">
-              <h4 class="card-title "> 
-                <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span>
-                {{ordem.nome}} 
-                
-                </h4> 
-              
-              <!--<p>Index: {{i}} </p> -->
-              <p >{{  ordem.data  | date }}</p>
-              <p>{{  ordem.data  | date:'mediumTime' }}</p>
-            </div>
+    <div class="col-sm-4"  > 
+            <!--<img class="card-img-top" src="..." alt="Card image cap">--> 
+            <div class="card">
+            <div class="card" 
+            [ngClass]="{
+              'card-inverse card-info': ordem.status == '0',
+              'card-inverse card-success ': ordem.status == '1',
+              'card-inverse card-warning  ':  ordem.status == '2'
+            }" > 
+              <h4 class="card-title ">  
+                {{ordem.nome}}  
+              </h4> 
+               <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" 
+                (click)="alterarStatus(ordem._id,'0');"></span>
+                <span class="glyphicon glyphicon-dashboard" aria-hidden="true" 
+                (click)="alterarStatus(ordem._id,'1');"></span>
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" 
+                (click)="alterarStatus(ordem._id,'2');"></span> </p>  
+              <p >{{  ordem.data  | date }} - {{  ordem.data  | date:'mediumTime' }}</p>
+              <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
+                 Quantidade: {{getQuantidade(ordem.itens)}} - Valor: {{getValorTotal(ordem.itens)}}</p>
+            </div>   
             <ul class="list-group list-group-flush">
                <app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>     
-            </ul>
-            <div class="card-block">
-                <button type="button" class="btn btn-outline-secondary btn-lg btn-block"
-                 data-toggle="modal" data-target="#myModal" (click)="onSelect(ordem);"
-                  >Adicionar</button>
-                <button type="button" class="btn btn-outline-warning btn-lg btn-block"
-                >Cancelar</button>
-            </div>
+            </ul>  
+              <div class="card-block">
+                  <button type="button" class="btn btn-outline-success btn-lg btn-block"
+                  data-toggle="modal" data-target="#myModal" (click)="onSelect(ordem);"
+                    >Adicionar</button>
+                  <button type="button" class="btn btn-outline-danger btn-lg btn-block"
+                  >Cancelar</button>
+              </div>  
           </div>
         </div> 
