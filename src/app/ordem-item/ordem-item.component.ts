@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Ordem } from '../ordem/ordem';
 
 @Component({
@@ -7,7 +7,7 @@ import { Ordem } from '../ordem/ordem';
   styleUrls: ['./ordem-item.component.css']
 })
 export class OrdemItemComponent implements OnInit {
-  @Input('n') item  :  any[] ;
+  @Input('n') item: any[];
   constructor() { }
 
   ngOnInit() {
