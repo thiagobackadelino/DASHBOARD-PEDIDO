@@ -6,7 +6,7 @@ import { Item } from './../itens/item';
         public nome: string;
         public status: string;
         public data: Date;
-
+        public delivery: boolean;
         public itens: any = [];
 
       constructor() {  }

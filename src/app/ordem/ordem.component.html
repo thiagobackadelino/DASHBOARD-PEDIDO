@@ -1,5 +1,4 @@
-    <div class="col-sm-4"  > 
-            <!--<img class="card-img-top" src="..." alt="Card image cap">--> 
+   <div class="col-sm-4"  >  
             <div class="card">
             <div class="card" 
             [ngClass]="{
@@ -15,17 +14,19 @@
                 <span class="glyphicon glyphicon-dashboard" aria-hidden="true" 
                 (click)="alterarStatus(ordem._id,'1');"></span>
                 <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" 
-                (click)="alterarStatus(ordem._id,'2');"></span> </p>  
+                (click)="alterarStatus(ordem._id,'2');"></span>
+                <span class="glyphicon glyphicon-road" aria-hidden="true" 
+                (click)="alterarDelivery(ordem._id);"></span> </p>  
               <p >{{  ordem.data  | date }} - {{  ordem.data  | date:'mediumTime' }}</p>
               <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
-                 Quantidade: {{getQuantidade(ordem.itens)}} - Valor: {{getValorTotal(ordem.itens)}}</p>
+                 Quantidade: {{getQuantidade(ordem.itens)}} - Valor: {{getValorTotal(ordem.itens) | currency:'BRL':true}}</p>
             </div>   
             <ul class="list-group list-group-flush">
                <app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>     
             </ul>  
               <div class="card-block">
                   <button type="button" class="btn btn-outline-success btn-lg btn-block"
-                  data-toggle="modal" data-target="#myModal" (click)="onSelect(ordem);"
+                     (click)="onSelect(ordem);"
                     >Adicionar</button>
                   <button type="button" class="btn btn-outline-danger btn-lg btn-block"
                   >Cancelar</button>

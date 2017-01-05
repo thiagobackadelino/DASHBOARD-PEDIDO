@@ -12,10 +12,7 @@ export class HomeComponent implements OnInit {
 
   ordens: any = [];
   
-  constructor(private ordensService: OrdensService) {
-           OrdensService.emitirOrdemAlterada.subscribe(
-      ordemAlterada => this.ordens = this.getOrdens()
-    );
+  constructor(private ordensService: OrdensService) { 
    }
 
   ngOnInit() {

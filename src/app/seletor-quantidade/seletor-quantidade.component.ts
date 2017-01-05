@@ -30,4 +30,9 @@ export class SeletorQuantidadeComponent {
     this.valor++;
     this.mudouValor.emit({novoValor: this.valor});
   }
+
+  ngOnDestroy(){
+    this.valor;
+    this.mudouValor;
+  }
 }
