@@ -18,6 +18,12 @@
                 <span class="glyphicon glyphicon-road" aria-hidden="true" 
                 (click)="alterarDelivery(ordem._id);"></span> </p>  
               <p >{{  ordem.data  | date }} - {{  ordem.data  | date:'mediumTime' }}</p>
+              <p><span *ngIf="ordem.prioridade" 
+              (click)="alterarPrioridade(ordem._id);"
+              class="tag tag-danger">Prioridade Alta</span></p>
+              <p><span *ngIf="!ordem.prioridade"
+              (click)="alterarPrioridade(ordem._id);"
+               class="tag tag-info">Prioridade Normal</span></p>
               <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
                  Quantidade: {{getQuantidade(ordem.itens)}} - Valor: {{getValorTotal(ordem.itens) | currency:'BRL':true}}</p>
             </div>   

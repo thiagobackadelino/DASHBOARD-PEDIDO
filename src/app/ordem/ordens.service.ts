@@ -32,6 +32,7 @@ export class OrdensService {
         ordem.data = new Date(); 
         ordem.status = "0";
         ordem.delivery = true;
+        ordem.prioridade = false;
         this.dataService.addDocument(ordem);  
         }
 
@@ -119,5 +120,20 @@ export class OrdensService {
                 return false;
             } 
     }  
+
+        alterarPrioridade(id){   
+             this.getDocumentById(id).then((data) => {
+               this.data = data[0];  
+                    if(this.data.prioridade){
+                        this.data.prioridade = false;
+                    }else  {
+                        this.data.prioridade = true;
+                    } 
+               this.dataService.addDocument(this.data);   
+            }).catch((ex) => {
+              console.error('Error fetching  alterarDelivery', ex);
+            }); 
+        } 
+ 
 
 }

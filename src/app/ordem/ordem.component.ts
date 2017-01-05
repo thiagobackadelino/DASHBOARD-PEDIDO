@@ -33,6 +33,10 @@ export class OrdemComponent implements OnInit {
       this.ordensService.alterarDelivery(id);
   }
 
+  alterarPrioridade(id){ 
+      this.ordensService.alterarPrioridade(id);
+  }
+
   getStatusAberto(status){   
    if(status = "0"){return true;} 
    else {return false;}
