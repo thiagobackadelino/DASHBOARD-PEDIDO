@@ -1,3 +1,4 @@
+import { OrdemRelatorioComponent } from './ordem-relatorio/ordem-relatorio.component';
 import { ModuleWithProviders } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 
@@ -12,6 +13,7 @@ const APP_ROUTES: Routes = [
     { path: 'ordem-item-modal/:id', component: OrdemItemModalComponent },
     { path: 'login', component: LoginComponent },
     { path: 'itens', component: ItensComponent }, 
+    { path: 'relatorios', component: OrdemRelatorioComponent},
     { path: 'naoEncontrado', component: ItemNaoEncontradoComponent }
 ];
 

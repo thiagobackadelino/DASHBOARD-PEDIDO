@@ -29,8 +29,7 @@ export class HomeComponent implements OnInit {
       this.ordens = data;   
     }).catch((ex) => {
       console.error('Error fetching users', ex);
-    });
-
+    }); 
   }
 
 }

@@ -19,7 +19,8 @@ import { OrdemComponent } from './ordem/ordem.component';
 import { OrdemItemComponent } from './ordem-item/ordem-item.component';
 import { OrdemItemModalComponent } from './ordem-item-modal/ordem-item-modal.component';
 import { OrdemItemSelecaoComponent } from './ordem-item-selecao/ordem-item-selecao.component';
-import { SeletorQuantidadeComponent } from './seletor-quantidade/seletor-quantidade.component';  
+import { SeletorQuantidadeComponent } from './seletor-quantidade/seletor-quantidade.component';
+import { OrdemRelatorioComponent } from './ordem-relatorio/ordem-relatorio.component';  
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { SeletorQuantidadeComponent } from './seletor-quantidade/seletor-quantid
        OrdemItemComponent,
         OrdemItemModalComponent, 
         OrdemItemSelecaoComponent,
-         SeletorQuantidadeComponent
+         SeletorQuantidadeComponent,
+         OrdemRelatorioComponent
   ],
   imports: [
     BrowserModule,
