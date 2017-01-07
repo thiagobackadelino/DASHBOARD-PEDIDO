@@ -1,7 +1,17 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, 
+  OnChanges,
+  DoCheck,
+  AfterContentInit,
+  AfterContentChecked,
+  AfterViewInit,
+  AfterViewChecked,
+  OnDestroy, 
+  ViewChild  
+ } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ordem } from './ordem';
 import { OrdensService } from './ordens.service';
+import { DataServiceOrdem } from '../services/data.service.ordem';
 
 @Component({
   selector: 'app-ordem',
@@ -9,15 +19,30 @@ import { OrdensService } from './ordens.service';
   styleUrls: ['./ordem.component.css']
 })
 export class OrdemComponent implements OnInit {
+ 
+  ordens: any = [];
 
-  @Input('n') ordem: Ordem[];
   constructor(
     private ordensService: OrdensService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private dataService: DataServiceOrdem) {
   }
 
   ngOnInit() {
+    this.getOrdens();
+  }
+
+  ngAfterViewInit() { 
+      this.getOrdens();
+  }
+
+  getOrdens() {
+    this.ordensService.getOrdens().then((data) => {
+      this.ordens = data;   
+    }).catch((ex) => {
+      console.error('Error fetching users', ex);
+    }); 
   }
 
   onSelect(ordem) {
@@ -25,16 +50,19 @@ export class OrdemComponent implements OnInit {
     this.router.navigate(['/ordem-item-modal/' + ordem._id]);
   }
 
-  alterarStatus(id, status) {
+  alterarStatus(id, status) { 
     this.ordensService.alterarStatus(id, status);
+    this.getOrdens();
   }
 
   alterarDelivery(id) {
-    this.ordensService.alterarDelivery(id);
+    this.ordensService.alterarDelivery(id); 
+    this.getOrdens();
   }
 
   alterarPrioridade(id) {
     this.ordensService.alterarPrioridade(id);
+    this.getOrdens(); 
   }
 
   getStatusAberto(status) {
@@ -78,5 +106,11 @@ export class OrdemComponent implements OnInit {
       return false
     }
   }
-
+  
+  excluirOrdem(id){
+    this.ordensService.excluirOrdem(id);
+    this.getOrdens();
+  }
+ 
+ 
 }

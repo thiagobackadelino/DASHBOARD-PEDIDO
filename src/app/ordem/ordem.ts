@@ -9,6 +9,7 @@ import { Item } from './../itens/item';
         public delivery: boolean;
         public prioridade: boolean;
         public itens: any = [];
+        public excluida: boolean;
 
       constructor() {  }
 

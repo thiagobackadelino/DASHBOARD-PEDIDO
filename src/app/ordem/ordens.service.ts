@@ -33,6 +33,7 @@ export class OrdensService {
         ordem.status = "0";
         ordem.delivery = true;
         ordem.prioridade = false;
+        ordem.excluida = false;
         this.dataService.addDocument(ordem);
     }
 
@@ -94,6 +95,20 @@ export class OrdensService {
         });
     }
 
+    excluirOrdem(id) {
+        this.getDocumentById(id).then((data) => {
+            this.data = data[0];
+            if (this.data.excluida) {
+                this.data.excluida = false;
+            } else {
+                this.data.excluida = true;
+            }
+            this.dataService.addDocument(this.data);
+        }).catch((ex) => {
+            console.error('Error fetching  excluirOrdem', ex);
+        });
+    }
+
     alterarDelivery(id) {
         this.getDocumentById(id).then((data) => {
             this.data = data[0];
@@ -107,6 +122,7 @@ export class OrdensService {
             console.error('Error fetching  alterarDelivery', ex);
         });
     }
+
     existeDeterminadoItemNaLista(item, itensSelecionados) {
         for (var x in itensSelecionados) {
             if (itensSelecionados[x]._id == item._id) {
@@ -122,17 +138,19 @@ export class OrdensService {
     }
 
     alterarPrioridade(id) {
-        this.getDocumentById(id).then((data) => {
+         this.getDocumentById(id).then((data) => {
             this.data = data[0];
             if (this.data.prioridade) {
                 this.data.prioridade = false;
-            } else {
+            } else if (!this.data.prioridade){
                 this.data.prioridade = true;
             }
-            this.dataService.addDocument(this.data);
+            //this.dataService.addDocument(this.data);
+            this.dataService.alterarPrioridade(this.data);
         }).catch((ex) => {
             console.error('Error fetching  alterarPrioridade', ex);
-        });
+        });  
+        
     }
 
 

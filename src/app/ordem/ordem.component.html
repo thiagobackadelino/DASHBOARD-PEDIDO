@@ -1,41 +1,45 @@
-   <div class="col-sm-4"  >  
-            <div class="card">
-            <div class="card" 
-            [ngClass]="{
+<div class="col-sm-4" *ngFor="let ordem of ordens">
+  <div class="card">
+    <div class="card" [ngClass]="{
               'card-inverse card-info': ordem.status == '0',
               'card-inverse card-success ': ordem.status == '1',
               'card-inverse card-warning  ':  ordem.status == '2'
-            }" > 
-              <h4 class="card-title ">  
-                {{ordem.nome}}  
-              </h4> 
-               <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" 
-                (click)="alterarStatus(ordem._id,'0');"></span>
-                <span class="glyphicon glyphicon-dashboard" aria-hidden="true" 
-                (click)="alterarStatus(ordem._id,'1');"></span>
-                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" 
-                (click)="alterarStatus(ordem._id,'2');"></span>
-                <span class="glyphicon glyphicon-road" aria-hidden="true" 
-                (click)="alterarDelivery(ordem._id);"></span> </p>  
-              <p >{{  ordem.data  | date }} - {{  ordem.data  | date:'mediumTime' }}</p>
-              <p><span *ngIf="ordem.prioridade" 
-              (click)="alterarPrioridade(ordem._id);"
-              class="tag tag-danger">Prioridade Alta</span></p>
-              <p><span *ngIf="!ordem.prioridade"
-              (click)="alterarPrioridade(ordem._id);"
-               class="tag tag-info">Prioridade Normal</span></p>
-              <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
-                 Quantidade: {{getQuantidade(ordem.itens)}} - Valor: {{getValorTotal(ordem.itens) | currency:'BRL':true}}</p>
-            </div>   
-            <ul class="list-group list-group-flush">
-               <app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>     
-            </ul>  
-              <div class="card-block">
-                  <button type="button" class="btn btn-outline-success btn-lg btn-block"
-                     (click)="onSelect(ordem);"
-                    >Adicionar</button>
-                  <button type="button" class="btn btn-outline-danger btn-lg btn-block"
-                  >Cancelar</button>
-              </div>  
-          </div>
-        </div> 
+            }">
+      <h4 class="card-title ">
+        {{ordem.nome}}
+      </h4>
+      <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" (click)="alterarStatus(ordem._id,'0');"></span>
+        <span class="glyphicon glyphicon-dashboard" aria-hidden="true" (click)="alterarStatus(ordem._id,'1');"></span>
+        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'2');"></span> </p>
+      <p>{{ ordem.data | date }} - {{ ordem.data | date:'mediumTime' }}</p>
+
+      <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
+        Quantidade: {{getQuantidade(ordem.itens)}} - Valor: {{getValorTotal(ordem.itens) | currency:'BRL':true}}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>
+    </ul>
+    <div class="card-block">
+      <button type="button" class="btn btn-outline-success btn-lg btn-block" (click)="onSelect(ordem);"><span  
+              class="glyphicon" [ngClass]="{
+              'glyphicon-plus': ordem.itens.length == '0',
+              'glyphicon-pencil': ordem.itens.length >= '1' 
+            }"
+              > 
+              </span></button>
+      <button (click)="excluirOrdem(ordem._id);" type="button" class="btn btn-outline-danger btn-lg btn-block"><span 
+              class="glyphicon glyphicon-trash"> 
+              </span></button>
+    </div>
+    <div class="card-footer text-muted">
+      <p>
+        <span (click)="alterarPrioridade(ordem._id);" class="glyphicon glyphicon-exclamation-sign">
+        {{ordem.prioridade == true ? 'Prioridade Alta' : 'Prioridade Normal' }} 
+        </span>
+        <span (click)="alterarDelivery(ordem._id);" class="glyphicon glyphicon-info-sign">
+        {{ordem.delivery == true ? 'Consumo Local': 'Para Entrega' }}
+         </span>
+      </p>
+    </div>
+  </div>
+</div>

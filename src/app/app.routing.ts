@@ -9,7 +9,7 @@ import { ItemNaoEncontradoComponent } from './item-nao-encontrado/item-nao-encon
 import { OrdemItemModalComponent } from './ordem-item-modal/ordem-item-modal.component';
 
 const APP_ROUTES: Routes = [
-    { path: 'home', component: HomeComponent },
+    { path: 'home', component: HomeComponent }, 
     { path: 'ordem-item-modal/:id', component: OrdemItemModalComponent },
     { path: 'login', component: LoginComponent },
     { path: 'itens', component: ItensComponent }, 

@@ -48,8 +48,7 @@ import { OrdemRelatorioComponent } from './ordem-relatorio/ordem-relatorio.compo
   ItensService,
   OrdensService,
   DataServiceItem,
-  DataServiceOrdem,
-  OrdemItemSelecaoComponent ],
+  DataServiceOrdem ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
