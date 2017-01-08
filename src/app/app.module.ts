@@ -15,8 +15,7 @@ import { DataServiceItem } from './services/data.service.item';
 import { DataServiceOrdem } from './services/data.service.ordem'; 
 import { ItemNaoEncontradoComponent } from './item-nao-encontrado/item-nao-encontrado.component';
 import { MensagemComponent } from './mensagem/mensagem.component';
-import { OrdemComponent } from './ordem/ordem.component';
-import { OrdemItemComponent } from './ordem-item/ordem-item.component';
+import { OrdemComponent } from './ordem/ordem.component'; 
 import { OrdemItemModalComponent } from './ordem-item-modal/ordem-item-modal.component';
 import { OrdemItemSelecaoComponent } from './ordem-item-selecao/ordem-item-selecao.component';
 import { SeletorQuantidadeComponent } from './seletor-quantidade/seletor-quantidade.component';
@@ -30,8 +29,7 @@ import { OrdemRelatorioComponent } from './ordem-relatorio/ordem-relatorio.compo
     ItensComponent, 
     ItemNaoEncontradoComponent,
      MensagemComponent,
-      OrdemComponent,
-       OrdemItemComponent,
+      OrdemComponent, 
         OrdemItemModalComponent, 
         OrdemItemSelecaoComponent,
          SeletorQuantidadeComponent,

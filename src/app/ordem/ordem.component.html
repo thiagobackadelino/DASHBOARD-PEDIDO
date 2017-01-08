@@ -1,23 +1,32 @@
 <div class="col-sm-4" *ngFor="let ordem of ordens">
   <div class="card">
     <div class="card" [ngClass]="{
-              'card-inverse card-info': ordem.status == '0',
-              'card-inverse card-success ': ordem.status == '1',
-              'card-inverse card-warning  ':  ordem.status == '2'
+              'card-inverse card-info': ordem.status == 'ABERTA',
+              'card-inverse card-success ': ordem.status == 'EM PROGRESSO',
+              'card-inverse card-warning  ':  ordem.status == 'FECHADA'
             }">
       <h4 class="card-title ">
-        {{ordem.nome}}
+        {{ordem.nome}} - {{ordem.status}}
       </h4>
-      <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" (click)="alterarStatus(ordem._id,'0');"></span>
-        <span class="glyphicon glyphicon-dashboard" aria-hidden="true" (click)="alterarStatus(ordem._id,'1');"></span>
-        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'2');"></span> </p>
+    <app-seletor-quantidade [valor]="ordem.quantidadePessoas != null ? ordem.quantidadePessoas :  '0'"  
+    (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
+      <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" (click)="alterarStatus(ordem._id,'ABERTA');"></span>
+        <span class="glyphicon glyphicon-dashboard" aria-hidden="true" (click)="alterarStatus(ordem._id,'EM PROGRESSO');"></span>
+        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'FECHADA');"></span>        </p>
       <p>{{ ordem.data | date }} - {{ ordem.data | date:'mediumTime' }}</p>
 
       <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
         Quantidade: {{getQuantidade(ordem.itens)}} - Valor: {{getValorTotal(ordem.itens) | currency:'BRL':true}}</p>
     </div>
-    <ul class="list-group list-group-flush">
-      <app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>
+    <ul class="list-group list-group-flush" *ngFor="let item of ordem.itens">
+      <!--<app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>-->
+      <li class="list-group-item" (click)="alterarStatusDoItem(ordem._id,item._id)"
+          [ngClass]="{
+              'list-group-item-action list-group-item-success': item.feito == true,
+              'list-group-item-action': item.feito == false 
+            }">
+        <span class="tag tag-success float-xs-right">{{item.quantidade}}</span> {{item.nome}}
+      </li>
     </ul>
     <div class="card-block">
       <button type="button" class="btn btn-outline-success btn-lg btn-block" (click)="onSelect(ordem);"><span  
@@ -37,7 +46,7 @@
         {{ordem.prioridade == true ? 'Prioridade Alta' : 'Prioridade Normal' }} 
         </span>
         <span (click)="alterarDelivery(ordem._id);" class="glyphicon glyphicon-info-sign">
-        {{ordem.delivery == true ? 'Consumo Local': 'Para Entrega' }}
+        {{ordem.delivery != true ? 'Consumo Local': 'Para Entrega' }}
          </span>
       </p>
     </div>

@@ -27,20 +27,11 @@ export class ItensService {
 
     addItem(item: any){  
 
-         if(item._id){          
-           //console.log(item._id);
+         if(item._id){           
              this.getDocumentById(item._id).then((data) => {
-               this.data = data[0];
-               /*console.table(  item ); // item de retorno 
-               console.table(  this.data ); // item de retorno 
-               console.table(   ); // item com alteracao
-               console.log(JSON.stringify(item));
-               console.log(JSON.stringify(this.data));
-               console.log(Object.keys(item));
-               console.log(Object.keys(this.data)); */
+               this.data = data[0]; 
                for(var x in this.data){ 
-                 if(item[x]){
-                   //console.log(x + "-- "+item[x]);
+                 if(item[x]){ 
                     this.data[x] = item[x];
                  }
                } 

@@ -36,7 +36,7 @@ export class DataServiceOrdem {
 
     // cloudant, couchdb, couchbase remote url
     // eg - https://<your_host>.cloudant.com/todohttp://sonic:sonic@127.0.0.1:5984/
-    this.remote = 'http://sonic:sonic@127.0.0.1:5984/dashboard-pedido-ordem';
+    this.remote = 'http://sonic:sonic@192.168.0.104:5984/dashboard-pedido-ordem';
 
     // cloudant, couchdb, couchbase remote url
     // applicable when username/password set. 
@@ -52,7 +52,6 @@ export class DataServiceOrdem {
 
     this.db.sync(this.remote, options);
     this.db.setMaxListeners(30);
-    console.table(this.data);
   }
 
   initCall() {
@@ -146,38 +145,7 @@ export class DataServiceOrdem {
             console.log("erro alterarPrioridade");
           });
   }
-
-  /*handleChange(change) {
-    let changedDoc = null;
-    let changedIndex = null;
-    //console.table(this.data);
-    this.data.forEach((doc, index) => {
-
-      if (doc._id === change.id) {
-        changedDoc = doc;
-        changedIndex = index;
-      }
-
-    });
-
-    //A document was deleted
-    if (change.deleted) {
-      this.data.splice(changedIndex, 1);
-    }
-    else {
-
-      //A document was updated
-      if (changedDoc) {
-        this.data[changedIndex] = change.doc;
-      }
-      //A document was added
-      else {
-        this.data.push(change.doc);
-      }
-
-    }
-
-}*/
+ 
 handleChange(change){
  
     this.zone.run(() => {

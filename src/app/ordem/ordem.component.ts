@@ -65,20 +65,11 @@ export class OrdemComponent implements OnInit {
     this.getOrdens(); 
   }
 
-  getStatusAberto(status) {
-    if (status = "0") { return true; }
-    else { return false; }
+  alterarStatusDoItem(ordemid,itemid) {  
+    this.ordensService.alterarStatusDoItem(ordemid,itemid);
+    this.getOrdens(); 
   }
 
-  getStatusProgresso(status) {
-    if (status = "2") { return true; }
-    else { return false; }
-  }
-
-  getStatusFechado(status) {
-    if (status = "3") { return true; }
-    else { return false; }
-  }
 
   getQuantidade(itens) {
     var a = 0;
@@ -110,6 +101,11 @@ export class OrdemComponent implements OnInit {
   excluirOrdem(id){
     this.ordensService.excluirOrdem(id);
     this.getOrdens();
+  }
+
+  incluirQuantidadeDePessoas($event,ordemid){
+    //alert($event.novoValor);
+    this.ordensService.incluirQuantidadeDePessoas($event,ordemid)
   }
  
  

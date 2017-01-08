@@ -30,10 +30,11 @@ export class OrdensService {
     addItem(ordem: Ordem) {
         ordem._id = new Date().toISOString() + Math.random();
         ordem.data = new Date();
-        ordem.status = "0";
-        ordem.delivery = true;
+        ordem.status = "ABERTA";
+        ordem.delivery = false;
         ordem.prioridade = false;
         ordem.excluida = false;
+        ordem.quantidadePessoas = 0;
         this.dataService.addDocument(ordem);
     }
 
@@ -51,7 +52,7 @@ export class OrdensService {
                     for (var y in this.data.itens) {
                         if (this.data.itens[y] != null) {
                             if (!this.existeDeterminadoItemNaLista(itensSelecionados[x], this.data.itens)) {
-                                console.log("nao existe -- " + itensSelecionados[x].nome)
+                                //console.log("nao existe -- " + itensSelecionados[x].nome)
                                 if (itensSelecionados[x].quantidade > 0) {
                                     this.data.itens.push(itensSelecionados[x]);
                                 }
@@ -89,6 +90,25 @@ export class OrdensService {
             //console.log( status);  
             this.data.status = status;
             //console.log(JSON.stringify(this.data)); 
+            this.dataService.addDocument(this.data);
+        }).catch((ex) => {
+            console.error('Error fetching  alterarStatus', ex);
+        });
+    }
+
+    alterarStatusDoItem(ordemid,itemid) {  
+        this.getDocumentById(ordemid).then((data) => {
+            this.data = data[0];
+             for(var x in this.data.itens){  
+                if(this.data.itens[x]._id == itemid){  
+                     if(this.data.itens[x].feito){
+                         this.data.itens[x].feito = false;
+                     }else{
+                         this.data.itens[x].feito = true;
+                     }
+                }
+            }
+            
             this.dataService.addDocument(this.data);
         }).catch((ex) => {
             console.error('Error fetching  alterarStatus', ex);
@@ -151,6 +171,16 @@ export class OrdensService {
             console.error('Error fetching  alterarPrioridade', ex);
         });  
         
+    }
+    incluirQuantidadeDePessoas($event,ordemid){
+          this.getDocumentById(ordemid).then((data) => {
+            this.data = data[0]; 
+                this.data.quantidadePessoas = $event.novoValor; 
+            //this.dataService.addDocument(this.data);
+            this.dataService.addDocument(this.data);
+        }).catch((ex) => {
+            console.error('Error fetching  alterarPrioridade', ex);
+        });        
     }
 
 

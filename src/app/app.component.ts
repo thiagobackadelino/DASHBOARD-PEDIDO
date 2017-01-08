@@ -1,5 +1,5 @@
-import { Component,OnInit } from '@angular/core';
-import { FormBuilder, Validators ,ReactiveFormsModule,FormGroup ,FormControl} from '@angular/forms';
+import { Component,OnInit } from '@angular/core'; 
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Ordem } from './ordem/ordem';
 import { OrdensService } from './ordem/ordens.service';
@@ -10,9 +10,10 @@ import { OrdensService } from './ordem/ordens.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  ordem  : Ordem;  
-  registerForm: FormGroup;
-  constructor(private ordensService: OrdensService,private formBuilder: FormBuilder ) { 
+  ordem  : Ordem;   
+
+  constructor(private ordensService: OrdensService, 
+              private router: Router ) { 
  
    }
 
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit {
      event.preventDefault();
      this.ordensService.addItem(this.ordem); 
      this.novaOrdem();
+     this.router.navigate(['/home']);
   }
 
   novaOrdem(){

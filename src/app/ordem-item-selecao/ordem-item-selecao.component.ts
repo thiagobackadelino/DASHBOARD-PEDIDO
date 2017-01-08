@@ -35,24 +35,21 @@ export class OrdemItemSelecaoComponent implements OnInit {
 
   montarPedido(event, item) {
     if (this.itensSelecionados.length == 0) {
+      item.feito = false;
       item.quantidade = event.novoValor;
       this.itensSelecionados.push(item);
     } else {
+      item.feito = false;
       item.quantidade = event.novoValor;
       if (!this.existeDeterminadoItemNaLista(item)) {
         if (item.quantidade == 0) {
         } else if (item.quantidade > 0) {
           this.itensSelecionados.push(item);
         }
-      } else if (this.existeDeterminadoItemNaLista(item)) {
-        console.log("this.existeDeterminadoItemNaLista(item)");
-        if (item.quantidade == 0) {
-          console.log("item.quantidade == 0");
-          //this.removeItemZeradoDaLista(item) 
-          //this.itensSelecionados.push(item);
+      } else if (this.existeDeterminadoItemNaLista(item)) { 
+        if (item.quantidade == 0) { 
         }
-      }
-      console.table(this.itensSelecionados);
+      } 
     }
   }
 
@@ -71,8 +68,7 @@ export class OrdemItemSelecaoComponent implements OnInit {
   }
 
   removeItemZeradoDaLista(item) {
-    for (var x in this.itensSelecionados) {
-      console.log(this.itensSelecionados[x]._id + "-------" + item._id);
+    for (var x in this.itensSelecionados) { 
       if (this.itensSelecionados[x]._id == item._id) {
         this.itensSelecionados.splice(x, 1);
       }
@@ -80,7 +76,6 @@ export class OrdemItemSelecaoComponent implements OnInit {
   }
 
   editarItem(id, itensSelecionados) {
-    //console.table(itensSelecionados); 
     this.ordensService.editarItem(id, itensSelecionados);
   }
 

@@ -48,8 +48,7 @@ export class OrdemItemModalComponent implements OnInit {
 
 
   getItens(ordem) {
-    this.itensService.getItens().then((data) => {
-      //console.table( data);
+    this.itensService.getItens().then((data) => { 
       for (var x in data) {
         for (var y in ordem.itens) {
           // console.log(" x ---"+ordem.itens[x].nome +"----- y "+data[y].nome);
@@ -64,8 +63,7 @@ export class OrdemItemModalComponent implements OnInit {
         }
       }
 
-      this.itens = data;
-      //console.table(this.itens);
+      this.itens = data; 
     }).catch((ex) => {
       console.error('Error fetching getItens', ex);
     });

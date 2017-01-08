@@ -10,6 +10,7 @@ import { Item } from './../itens/item';
         public prioridade: boolean;
         public itens: any = [];
         public excluida: boolean;
+        public quantidadePessoas: number;
 
       constructor() {  }
 

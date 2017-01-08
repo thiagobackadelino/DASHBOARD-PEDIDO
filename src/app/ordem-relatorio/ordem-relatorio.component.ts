@@ -16,14 +16,11 @@ export class OrdemRelatorioComponent implements OnInit {
   constructor(private ordensService: OrdensService) { }
 
   ngOnInit() {
-    //this.ordensService.initCall();
-    //this.getValorTotal(this.ordens);
-      console.log("this.ordens");
+ 
   }
 
     ngAfterViewInit() { 
-      this. getOrdens();
-      //this.getValorTotal(this.ordens.itens)
+      this. getOrdens(); 
   }
 
     getOrdens() {
