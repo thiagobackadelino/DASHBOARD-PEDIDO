@@ -1,14 +1,14 @@
- <li class="list-group-item" *ngFor="let item of itens">
-             <h5> <span class="tag tag-success float-xs-right">Valor: {{ item.valor | currency:'BRL':true }}</span></h5>
-              <a class="collection-item"> 
-            {{ item.nome }}  
-            
-<app-seletor-quantidade [valor]="item.quantidade != null ? item.quantidade :  '0'"  
-
+<li class="list-group-item" *ngFor="let item of itens">
+  <h5>
+     <span class="tag tag-success float-xs-right">Valor: {{ item.valor | currency:'BRL':true }}</span>
+     <app-seletor-quantidade [valor]="item.quantidade != null ? item.quantidade :  '0'"  
 (mudouValor)="montarPedido($event,item) "></app-seletor-quantidade>
+     </h5>
+  <a class="collection-item"> 
+            {{ item.nome }}  
             </a>
-</li>  
-             <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"  (click)="voltarHome();"   >Fechar</button>
-        <button type="button" class="btn btn-primary" (click)="editarItem(id,itensSelecionados);" >Salvar</button>
-      </div>
+</li>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="voltarHome();">Fechar</button>
+  <button type="button" class="btn btn-primary" (click)="editarItem(id,itensSelecionados);">Salvar</button>
+</div>
