@@ -12,7 +12,7 @@ export class CaixaService {
 
     }
 
-    addCaixa(doc: Caixa) { 
+    addCaixa(doc: Caixa) {
         doc._id = this.getIdCaixaDiaAtual();
         this.dataService.existeCaixaDiaAtual(doc._id).then((data) => {
             if (data == true) {
@@ -29,21 +29,21 @@ export class CaixaService {
         });
     }
 
-    registrarMovimentacao(doc: any) { 
+    registrarMovimentacao(doc: any) {
         doc._id = new Date().toISOString() + Math.random();
         doc.data = new Date();
         this.dataService.existeCaixaDiaAtual(this.getIdCaixaDiaAtual()).then((data) => {
             if (data == true) {
                 this.getCaixaDiaAtual().then((data) => {
-                        console.log(data);
-                          let caixa : any = {} ;
-                          caixa = data; 
-                         caixa.movimentacoes.push(doc);
-                         this.dataService.addDocument(caixa);
-                        }).catch((ex) => {
-                        console.error('Error fetching getCaixaDiaAtual', ex);
-                        });
-            } else if (data == false) { 
+                    console.log(data);
+                    let caixa: any = {};
+                    caixa = data;
+                    caixa.movimentacoes.push(doc);
+                    this.dataService.addDocument(caixa);
+                }).catch((ex) => {
+                    console.error('Error fetching getCaixaDiaAtual', ex);
+                });
+            } else if (data == false) {
             }
 
         }).catch((ex) => {
@@ -51,17 +51,30 @@ export class CaixaService {
         });
     }
 
+    fecharCaixa(caixa) { 
+        this.getCaixaDiaAtual().then((data) => { 
+            let caixa: any = {};
+            caixa = data;
+            caixa.dataFechamento = new Date();
+            this.dataService.addDocument(caixa);
+        }).catch((ex) => {
+            console.error('Error fetching getCaixaDiaAtual', ex);
+        });
+
+    }
+
     getCaixaDiaAtual() {
         return this.dataService.getCaixaDiaAtual(this.getIdCaixaDiaAtual());
     }
 
-    existeCaixaDiaAtual(){ 
-        return this.dataService.existeCaixaDiaAtual(this.getIdCaixaDiaAtual());       
+    existeCaixaDiaAtual() {
+        return this.dataService.existeCaixaDiaAtual(this.getIdCaixaDiaAtual());
     }
 
-    getIdCaixaDiaAtual(){
+    getIdCaixaDiaAtual() {
         let date = new Date();
         let id = date.getFullYear() + "" + (date.getMonth() + 1) + "" + date.getDate();
         return id;
     }
+
 }

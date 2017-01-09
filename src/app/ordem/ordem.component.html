@@ -24,9 +24,7 @@
               class="glyphicon glyphicon-trash"> 
               </span></button>
       <app-seletor-quantidade [valor]="ordem.quantidadePessoas != null ? ordem.quantidadePessoas :  '0'" (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
-      <button (click)="incluirMovimentacao(ordem._id);" type="button" class="btn btn-success"><span 
-              class="glyphicon glyphicon glyphicon-usd"> 
-              </span></button>
+
     </div>
     <div class="card" [ngClass]="{
               'card-inverse card-info': ordem.status == 'ABERTA',
@@ -67,7 +65,9 @@
       <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
         Quantidade: {{getQuantidade(ordem.itens)}} </p>
       <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
-        Valor: {{getValorTotal(ordem.itens) | currency:'BRL':true}}</p>
+        <button (click)="incluirMovimentacao(getValorTotal(ordem.itens));" type="button" class="btn btn-success"> 
+                {{getValorTotal(ordem.itens) | currency:'BRL':true}}
+               </button></p>
     </div>
 
   </div>

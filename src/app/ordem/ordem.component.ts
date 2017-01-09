@@ -113,8 +113,8 @@ export class OrdemComponent implements OnInit {
     this.getOrdens();
   }
 
-    incluirMovimentacao(id) {
-    this.router.navigate(['/caixa-incluir-movimentacao/'+id]);
+    incluirMovimentacao(valor) {
+    this.router.navigate(['/caixa-incluir-movimentacao/'+valor]);
   }
 
 }

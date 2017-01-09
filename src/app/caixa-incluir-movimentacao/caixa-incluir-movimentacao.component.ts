@@ -22,8 +22,7 @@ export class CaixaIncluirMovimentacaoComponent implements OnInit {
 
   registrarMovimentacao(){
     console.table(this.movimentacao);
-    this.dataService.registrarMovimentacao(this.movimentacao);
-     
+    this.dataService.registrarMovimentacao(this.movimentacao); 
   }
 
 }

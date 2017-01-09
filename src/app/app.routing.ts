@@ -19,7 +19,7 @@ const APP_ROUTES: Routes = [
     { path: 'relatorios', component: OrdemRelatorioComponent},
     { path: 'naoEncontrado', component: ItemNaoEncontradoComponent },
     { path: 'caixa', component: CaixaComponent },
-    { path: 'caixa-incluir-movimentacao/:id', component: CaixaIncluirMovimentacaoComponent },
+    { path: 'caixa-incluir-movimentacao/:valor', component: CaixaComponent },
     { path: 'caixa-incluir-movimentacao', component: CaixaIncluirMovimentacaoComponent }
 ];
 
