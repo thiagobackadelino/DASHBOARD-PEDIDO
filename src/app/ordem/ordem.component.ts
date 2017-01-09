@@ -20,7 +20,7 @@ import { DataServiceOrdem } from '../services/data.service.ordem';
 })
 export class OrdemComponent implements OnInit {
  
-  ordens: any = [];
+  ordens: any = []; 
 
   constructor(
     private ordensService: OrdensService,
@@ -41,7 +41,7 @@ export class OrdemComponent implements OnInit {
     this.ordensService.getOrdens().then((data) => {
       this.ordens = data;   
     }).catch((ex) => {
-      console.error('Error fetching users', ex);
+      console.error('Error fetching getOrdens', ex);
     }); 
   }
 
@@ -103,10 +103,18 @@ export class OrdemComponent implements OnInit {
     this.getOrdens();
   }
 
-  incluirQuantidadeDePessoas($event,ordemid){
-    //alert($event.novoValor);
-    this.ordensService.incluirQuantidadeDePessoas($event,ordemid)
+  incluirQuantidadeDePessoas($event,ordemid){ 
+    this.ordensService.incluirQuantidadeDePessoas($event,ordemid);
+    this.getOrdens();
   }
- 
- 
+  
+  salvarObservacao(ordemid,valor){ 
+    this.ordensService.salvarObservacao(ordemid,valor);
+    this.getOrdens();
+  }
+
+    incluirMovimentacao(id) {
+    this.router.navigate(['/caixa-incluir-movimentacao/'+id]);
+  }
+
 }

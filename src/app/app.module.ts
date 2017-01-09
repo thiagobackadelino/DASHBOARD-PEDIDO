@@ -10,9 +10,11 @@ import { HomeComponent } from './home/home.component';
 import { ItensComponent } from './itens/itens.component';
 import { routing } from './app.routing';
 import { ItensService } from './itens/itens.service';
+import { CaixaService } from './caixa/caixa.service';
 import { OrdensService } from './ordem/ordens.service';
 import { DataServiceItem } from './services/data.service.item'; 
 import { DataServiceOrdem } from './services/data.service.ordem'; 
+import { DataServiceCaixa } from './services/data.service.caixa'; 
 import { ItemNaoEncontradoComponent } from './item-nao-encontrado/item-nao-encontrado.component';
 import { MensagemComponent } from './mensagem/mensagem.component';
 import { OrdemComponent } from './ordem/ordem.component'; 
@@ -20,7 +22,9 @@ import { OrdemItemModalComponent } from './ordem-item-modal/ordem-item-modal.com
 import { OrdemItemSelecaoComponent } from './ordem-item-selecao/ordem-item-selecao.component';
 import { SeletorQuantidadeComponent } from './seletor-quantidade/seletor-quantidade.component';
 import { OrdemRelatorioComponent } from './ordem-relatorio/ordem-relatorio.component';
-import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';  
+import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
+import { CaixaComponent } from './caixa/caixa.component';
+import { CaixaIncluirMovimentacaoComponent } from './caixa-incluir-movimentacao/caixa-incluir-movimentacao.component';  
 
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
         OrdemItemSelecaoComponent,
          SeletorQuantidadeComponent,
          OrdemRelatorioComponent,
-         RemoveSpacesPipe
+         RemoveSpacesPipe,
+         CaixaComponent,
+         CaixaIncluirMovimentacaoComponent
   ],
   imports: [
     BrowserModule,
@@ -47,8 +53,10 @@ import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
   providers: [
   ItensService,
   OrdensService,
+  CaixaService,
   DataServiceItem,
-  DataServiceOrdem ],
+  DataServiceOrdem,
+  DataServiceCaixa],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

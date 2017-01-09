@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row row-offcanvas row-offcanvas-left">
+    <div class="row-offcanvas row-offcanvas-right">
+      <div class="  col-sm-2 sidebar-offcanvas" id="sidebarLeft" role="navigation">
+        <p class="visible-xs">
+          <button class="btn btn-primary btn-xs" type="button" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
+        </p>
+        <div class="well sidebar-nav">
+          <ul class="nav">
+            <li>
+              <button class="btn btn-success" type="button" (click)="addCaixa(caixa);" [(disabled)]='caixa.aberto'>Abrir Caixa </button>
+            </li>
+            <li>
+              <div class="form-group">
+                <label for="valorInicial">Valor Inicial</label>
+                <input type="text" [(disabled)]='caixa.aberto' class="form-control" id="valorInicial" [(ngModel)]="caixa.valorInicial" name="valorInicial" #valorInicial="ngModel">
+              </div>
+            </li>
+            <li>
+              <div class="form-group">
+                <label for="exampleTextarea">Observação</label>
+                <textarea class="form-control"  [(disabled)]='caixa.aberto' id="exampleTextarea" rows="2" [(ngModel)]="caixa.observacao" name="observacao" #observacao="ngModel"></textarea>
+              </div>
+            </li>
+            <li>
+              <div class="alert alert-success" role="alert">
+                <strong>{{ caixa.aberto ? "Caixa Aberto" : "Caixa Fechado"}}</strong>
+              </div>
+            </li>
+            <li>
+              <button class="btn btn-success" type="button" (click)="incluirMovimentacao(caixa?._id);" [(disabled)]='!caixa.aberto'>Adicionar Entrada </button>
+            </li>
+          </ul>
+        </div>
+        <!--/.well -->
+      </div>
+      <!--/span-->
+
+      <div class=" col-sm-8">
+        <p class="pull-left visible-xs">
+          <button class="btn btn-primary btn-xs" type="button" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
+        </p>
+        <p class="pull-right visible-xs">
+          <button class="btn btn-primary btn-xs" type="button" data-toggle="offcanvasright"><i class="glyphicon glyphicon-chevron-right"></i></button>
+        </p>
+        <div class="jumbotron">
+          <h2>Movimentações Do Caixa</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Data</th>
+                  <th>Hora</th>
+                  <th>Observacao</th>
+                  <th>Valor</th>
+                  <th>Tipo</th>
+                  <th>Forma de Pagamento</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>08/01/2017</td>
+                  <td>08:00</td>
+                  <td>Efetuada com sucesso</td>
+                  <td>25.00</td>
+                  <td>Entrada</td>
+                  <td>Debito</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <!--/span-->
+
+      <div class=" col-sm-2 sidebar-offcanvas" id="sidebarRight" role="navigation">
+        <p class="visible-xs">
+          <button class="btn btn-primary btn-xs" type="button" data-toggle="offcanvas"><i class="glyphicon glyphicon-chevron-left"></i></button>
+        </p>
+        <div class="well sidebar-nav">
+          <ul class="nav">
+            <li>Resumo</li>
+            <li class="active"> Saldo Inicial em Dinheiro </li>
+            <li>Dinheiro</li>
+            <li>Cartao de Debito</li>
+            <li>Cartao de Credito</li>
+            <li>Total de Entradas</li>
+            <li>Total de Saidas</li>
+            <li>Dinheiro</li>
+            <li>Saldo do Caixa</li>
+            <li>Saldo em dinheiro</li>
+            <li>Saldo do Final</li>
+          </ul>
+        </div>
+        <!--/.well -->
+      </div>
+      <!--/span-->
+
+    </div>
+
+  </div>
+  <!--/row-->
+</div>
+<!--/.container-->

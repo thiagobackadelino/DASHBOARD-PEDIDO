@@ -34,6 +34,7 @@ export class OrdensService {
         ordem.delivery = false;
         ordem.prioridade = false;
         ordem.excluida = false;
+        ordem.observacao = '';
         ordem.quantidadePessoas = 0;
         this.dataService.addDocument(ordem);
     }
@@ -172,11 +173,22 @@ export class OrdensService {
         });  
         
     }
+
     incluirQuantidadeDePessoas($event,ordemid){
           this.getDocumentById(ordemid).then((data) => {
             this.data = data[0]; 
                 this.data.quantidadePessoas = $event.novoValor; 
             //this.dataService.addDocument(this.data);
+            this.dataService.addDocument(this.data);
+        }).catch((ex) => {
+            console.error('Error fetching  alterarPrioridade', ex);
+        });        
+    }
+
+  salvarObservacao(ordemid,valor){
+          this.getDocumentById(ordemid).then((data) => {
+            this.data = data[0]; 
+                this.data.observacao = valor;  
             this.dataService.addDocument(this.data);
         }).catch((ex) => {
             console.error('Error fetching  alterarPrioridade', ex);

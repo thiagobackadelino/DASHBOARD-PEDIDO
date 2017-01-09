@@ -17,6 +17,9 @@
           <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="/login">LOGIN</a>
           </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/caixa">CAIXA</a>
+          </li>
         </ul>
         <form (submit)="addData($event)" #ordemForm="ngForm" class="form-inline float-xs-right">
         <input class="form-control" type="text" placeholder="Incluir Comanda" [(ngModel)]="ordem.nome" name="nome"

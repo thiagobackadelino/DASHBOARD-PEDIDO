@@ -24,6 +24,9 @@
               class="glyphicon glyphicon-trash"> 
               </span></button>
       <app-seletor-quantidade [valor]="ordem.quantidadePessoas != null ? ordem.quantidadePessoas :  '0'" (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
+      <button (click)="incluirMovimentacao(ordem._id);" type="button" class="btn btn-success"><span 
+              class="glyphicon glyphicon glyphicon-usd"> 
+              </span></button>
     </div>
     <div class="card" [ngClass]="{
               'card-inverse card-info': ordem.status == 'ABERTA',
@@ -36,25 +39,29 @@
       <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" (click)="alterarStatus(ordem._id,'ABERTA');"></span>
         <span class="glyphicon glyphicon-dashboard" aria-hidden="true" (click)="alterarStatus(ordem._id,'EM PROGRESSO');"></span>
         <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'FECHADA');"></span>        </p>
-       <!-- <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#" [attr.data-target]="'#' + ordem.nome | removeSpaces"
+      <!-- <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#" [attr.data-target]="'#' + ordem.nome | removeSpaces"
         aria-expanded="false" aria-controls="collapseExample">
     <span class="glyphicon glyphicon-bell"></span>
   </button>-->
     </div>
     <!--<div class="collapse" id="" [attr.id]="'' + ordem.nome | removeSpaces">-->
-      <ul class="list-group list-group-flush" *ngFor="let item of ordem.itens">
-        <!--<app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>-->
-        <li class="list-group-item" (click)="alterarStatusDoItem(ordem._id,item._id)" [ngClass]="{
+    <ul class="list-group list-group-flush" *ngFor="let item of ordem.itens">
+      <!--<app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>-->
+      <li class="list-group-item" (click)="alterarStatusDoItem(ordem._id,item._id)" [ngClass]="{
               'list-group-item-action list-group-item-success': item.feito == true,
               'list-group-item-action': item.feito == false 
             }">
-          <span class="tag tag-success float-xs-right">{{item.quantidade}}</span> {{item.nome}}
-        </li>
-      </ul>
-      <!--<div class="card-block">
+        <span class="tag tag-success float-xs-right">{{item.quantidade}}</span> {{item.nome}}
+      </li>
+    </ul>
+    <!--<div class="card-block">
       
     </div>-->
-   <!-- </div>-->
+    <!-- </div>-->
+    <div class="form-group">
+      <textarea class="form-control" id="#" [attr.id]="'#' + ordem.nome | removeSpaces" rows="2" placeholder="Observação" type="text"
+        [(ngModel)]="ordem.observacao" (keyup.enter)="salvarObservacao(ordem._id,ordem.observacao)" (blur)="salvarObservacao(ordem._id,ordem.observacao)"></textarea>
+    </div>
     <div class="card-footer text-muted">
       <p>{{ ordem.data | date }} - {{ ordem.data | date:'mediumTime' }}</p>
       <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
