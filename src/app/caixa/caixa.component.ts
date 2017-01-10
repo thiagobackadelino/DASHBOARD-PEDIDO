@@ -34,19 +34,16 @@ export class CaixaComponent implements OnInit {
         }
       }
     ); 
-    this.getCaixaDiaAtual();
-    this.existeCaixaDiaAtual();
+    this.getCaixaDiaAtual(); 
   }
 
   ngAfterViewInit() {
-    this.getCaixaDiaAtual();
-    this.existeCaixaDiaAtual();
+    this.getCaixaDiaAtual(); 
   }
 
   addCaixa() {
     this.caixaService.addCaixa(this.caixa);
-    this.getCaixaDiaAtual();
-    this.existeCaixaDiaAtual();
+    this.getCaixaDiaAtual(); 
   }
 
   fecharCaixa(){
@@ -60,14 +57,7 @@ export class CaixaComponent implements OnInit {
       console.error('Error fetching getCaixaDiaAtual', ex);
     });
   }
-
-  existeCaixaDiaAtual() {
-    this.caixaService.existeCaixaDiaAtual().then((data) => {
-      this.caixa.aberto = data;
-    }).catch((ex) => {
-      console.error('Error fetching existeCaixaDiaAtual', ex);
-    });
-  }
+ 
 
   incluirMovimentacao(id) {
     this.router.navigate(['/caixa-incluir-movimentacao/']);
@@ -75,8 +65,8 @@ export class CaixaComponent implements OnInit {
 
   registrarMovimentacao() {
     this.caixaService.registrarMovimentacao(this.movimentacao);
-    this.getCaixaDiaAtual();
-    this.existeCaixaDiaAtual();
+    this.getCaixaDiaAtual(); 
   }
+ 
 
 }

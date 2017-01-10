@@ -16,8 +16,7 @@ export class CaixaService {
         doc._id = this.getIdCaixaDiaAtual();
         this.dataService.existeCaixaDiaAtual(doc._id).then((data) => {
             if (data == true) {
-            } else if (data == false) {
-                doc.aberto = true;
+            } else if (data == false) { 
                 doc.dataAbertura = new Date();
                 doc.observacao = doc.observacao;
                 doc.movimentacoes = [];
@@ -58,18 +57,14 @@ export class CaixaService {
             caixa.dataFechamento = new Date();
             this.dataService.addDocument(caixa);
         }).catch((ex) => {
-            console.error('Error fetching getCaixaDiaAtual', ex);
+            console.error('Error fetching fecharCaixa', ex);
         });
 
     }
 
     getCaixaDiaAtual() {
         return this.dataService.getCaixaDiaAtual(this.getIdCaixaDiaAtual());
-    }
-
-    existeCaixaDiaAtual() {
-        return this.dataService.existeCaixaDiaAtual(this.getIdCaixaDiaAtual());
-    }
+    } 
 
     getIdCaixaDiaAtual() {
         let date = new Date();

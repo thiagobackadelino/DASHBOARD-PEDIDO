@@ -1,48 +1,76 @@
-<body>
-  <div class="container">
+
+  <div class="container-fluid">
+    <!-- If Needed Left and Right Padding in 'md' and 'lg' screen means use container class -->
     <div class="row">
-      <div class="col-6 .col-md-4">
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
         <ul class="nav justify-content-end">
           <li class="active">
-            <button class="btn btn-success btn-lg btn-block" type="button" (click)="addCaixa(caixa);" [(disabled)]='caixa.aberto'>Abrir Caixa </button>
+            <button class="btn btn-success btn-lg btn-block" type="button" (click)="addCaixa(caixa);" [(disabled)]='caixa.dataAbertura'>{{caixa.dataAbertura ? "Caixa Aberto" : "Abrir Caixa" }} </button>
           </li>
           <li>
             <div class="form-group">
               <label for="valorInicial">Valor Inicial</label>
-              <input type="text" [(disabled)]='caixa.aberto' class="form-control" id="valorInicial" [(ngModel)]="caixa.valorInicial" name="valorInicial"
-                #valorInicial="ngModel">
+              <input type="text" [(disabled)]='caixa.dataAbertura' class="form-control" id="valorInicial" [(ngModel)]="caixa.valorInicial"
+                name="valorInicial" #valorInicial="ngModel">
             </div>
           </li>
           <li>
             <div class="form-group">
               <label for="exampleTextarea">Observação</label>
-              <textarea class="form-control" [(disabled)]='caixa.aberto' id="exampleTextarea" rows="2" [(ngModel)]="caixa.observacao" name="observacao"
-                #observacao="ngModel"></textarea>
+              <textarea class="form-control" [(disabled)]='caixa.dataAbertura' id="exampleTextarea" rows="2" [(ngModel)]="caixa.observacao"
+                name="observacao" #observacao="ngModel"></textarea>
             </div>
           </li>
-          <!--<li>
-          <button class="btn btn-success btn-lg btn-block" type="button" (click)="incluirMovimentacao(caixa?._id);" [(disabled)]='!caixa.aberto'>Adicionar Movimentação </button>
-        </li>-->
+          <li class="active">
+            <button class="btn btn-info btn-lg btn-block" type="button" (click)="fecharCaixa(caixa);" [(disabled)]='!caixa.dataAbertura'>Fechar Caixa</button>
+          </li>
         </ul>
+      </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <h2 class="sub-header">Movimentações</h2>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Valor</th>
+                <th>Observacao</th>
+                <th>Tipo de Operação</th>
+                <th>Forma de Pagamento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of caixa.movimentacoes">
+                <td>#</td>
+                <td>{{item.valor}}</td>
+                <td>{{item.observacao}}</td>
+                <td>{{item.tipoDeOperacao}}</td>
+                <td>{{item.formaDePagamento}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
         <ul class="nav justify-content-end">
           <li>
             <div class="form-group">
               <label for="valorInicial">Valor</label>
-              <input type="text" [(disabled)]='!caixa.aberto' class="form-control" id="valor" [(ngModel)]="movimentacao.valor" name="valor"
+              <input type="text" [(disabled)]='!caixa.dataAbertura' class="form-control" id="valor" [(ngModel)]="movimentacao.valor" name="valor"
                 #nome="ngModel" [value]="movimentacao?.valor">
             </div>
           </li>
           <li>
             <div class="form-group">
               <label for="valorInicial">observacao</label>
-              <input type="text" [(disabled)]='!caixa.aberto' class="form-control" id="observacao" [(ngModel)]="movimentacao.observacao"
+              <input type="text" [(disabled)]='!caixa.dataAbertura' class="form-control" id="observacao" [(ngModel)]="movimentacao.observacao"
                 name="observacao" #nome="ngModel" [value]="movimentacao?.observacao">
             </div>
           </li>
           <li>
             <div class="form-group">
               <label for="exampleSelect1">Tipo de Operação</label>
-              <select class="form-control" [(ngModel)]="movimentacao.tipoDeOperacao">
+              <select class="form-control" [(ngModel)]="movimentacao.tipoDeOperacao" [(disabled)]='!caixa.dataAbertura'>
       <option>Entrada - Acréscimo</option>
       <option>Saída - Sangria</option>
       <option>Saída - Pagamento de Despesas</option>
@@ -53,7 +81,7 @@
           <li>
             <div class="form-group">
               <label for="exampleSelect1">Forma de Pagamento</label>
-              <select class="form-control" [(ngModel)]="movimentacao.formaDePagamento">
+              <select class="form-control" [(ngModel)]="movimentacao.formaDePagamento" [(disabled)]='!caixa.dataAbertura'>
       <option>Dinheiro</option>
       <option>Cartão de Debito</option>
       <option>Cartão de Crédito</option> 
@@ -61,12 +89,81 @@
             </div>
           </li>
           <li>
-            <button type="button" (click)="registrarMovimentacao();" class="btn btn-primary  btn-lg btn-block">Registrar</button>
+            <button type="button" (click)="registrarMovimentacao();" class="btn btn-primary  btn-lg btn-block" [(disabled)]='!caixa.dataAbertura'>Registrar</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+
+    </div>
+  </div>
+  <!--<div class="container">
+    <div class="row">
+      <div class="col-6 .col-md-4">
+        <ul class="nav justify-content-end">
+          <li class="active">
+            <button class="btn btn-success btn-lg btn-block" type="button" (click)="addCaixa(caixa);"
+             [(disabled)]='caixa.dataAbertura'>{{caixa.dataAbertura ? "Caixa Aberto" : "Abrir Caixa" }} </button>
+          </li>
+          <li>
+            <div class="form-group">
+              <label for="valorInicial">Valor Inicial</label>
+              <input type="text" [(disabled)]='caixa.dataAbertura' class="form-control" id="valorInicial" [(ngModel)]="caixa.valorInicial" name="valorInicial"
+                #valorInicial="ngModel">
+            </div>
+          </li>
+          <li>
+            <div class="form-group">
+              <label for="exampleTextarea">Observação</label>
+              <textarea class="form-control" [(disabled)]='caixa.dataAbertura' id="exampleTextarea" rows="2" [(ngModel)]="caixa.observacao" name="observacao"
+                #observacao="ngModel"></textarea>
+            </div>
+          </li> 
+        </ul>
+        <ul class="nav justify-content-end">
+          <li>
+            <div class="form-group">
+              <label for="valorInicial">Valor</label>
+              <input type="text" [(disabled)]='!caixa.dataAbertura' class="form-control" id="valor" [(ngModel)]="movimentacao.valor" name="valor"
+                #nome="ngModel" [value]="movimentacao?.valor">
+            </div>
+          </li>
+          <li>
+            <div class="form-group">
+              <label for="valorInicial">observacao</label>
+              <input type="text" [(disabled)]='!caixa.dataAbertura' class="form-control" id="observacao" [(ngModel)]="movimentacao.observacao"
+                name="observacao" #nome="ngModel" [value]="movimentacao?.observacao">
+            </div>
+          </li>
+          <li>
+            <div class="form-group">
+              <label for="exampleSelect1">Tipo de Operação</label>
+              <select class="form-control" [(ngModel)]="movimentacao.tipoDeOperacao" [(disabled)]='!caixa.dataAbertura'>
+      <option>Entrada - Acréscimo</option>
+      <option>Saída - Sangria</option>
+      <option>Saída - Pagamento de Despesas</option>
+      
+    </select>
+            </div>
+          </li>
+          <li>
+            <div class="form-group">
+              <label for="exampleSelect1">Forma de Pagamento</label>
+              <select class="form-control" [(ngModel)]="movimentacao.formaDePagamento" [(disabled)]='!caixa.dataAbertura'>
+      <option>Dinheiro</option>
+      <option>Cartão de Debito</option>
+      <option>Cartão de Crédito</option> 
+    </select>
+            </div>
+          </li>
+          <li>
+            <button type="button" (click)="registrarMovimentacao();" class="btn btn-primary  btn-lg btn-block" [(disabled)]='!caixa.dataAbertura'>Registrar</button>
           </li>
         </ul>
 
       </div>
-      <div class="col-12 .col-md-8">
+      <div class="col-12 .col-md-8" *ngIf="caixa.dataAbertura">
         <h2 class="sub-header">Movimentações</h2>
         <div class="table-responsive">
           <table class="table table-striped">
@@ -91,12 +188,10 @@
           </table>
           <ul class="nav justify-content-end">
             <li class="active">
-              <button class="btn btn-info btn-lg btn-block" type="button" (click)="fecharCaixa(caixa);"  
-              >Fechar Caixa</button>
+              <button class="btn btn-info btn-lg btn-block" type="button" (click)="fecharCaixa(caixa);" [(disabled)]='!caixa.dataAbertura'>Fechar Caixa</button>
             </li>
           </ul>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </div>--> 
