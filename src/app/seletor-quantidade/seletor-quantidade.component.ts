@@ -5,22 +5,25 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
   templateUrl: './seletor-quantidade.component.html',
   styleUrls: ['./seletor-quantidade.component.css']
 })
-export class SeletorQuantidadeComponent {
+export class SeletorQuantidadeComponent  {
 
   @Input() valor : number = 0;
 
+
   @Output() mudouValor = new EventEmitter();
+ 
 
-  constructor() {  }
+  constructor() {  
+   }
 
-  decrementa(){
+  decrementa(){ 
     this.valor--;
-    this.mudouValor.emit({novoValor: this.valor});
+    this.mudouValor.emit({novoValor: this.valor}); 
   }
 
   incrementa(){
     this.valor++;
-    this.mudouValor.emit({novoValor: this.valor});
+    this.mudouValor.emit({novoValor: this.valor}); 
   }
 
   ngOnDestroy(){

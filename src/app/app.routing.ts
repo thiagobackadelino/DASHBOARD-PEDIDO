@@ -1,6 +1,4 @@
-import { CaixaIncluirMovimentacaoComponent } from './caixa-incluir-movimentacao/caixa-incluir-movimentacao.component';
-import { CaixaComponent } from './caixa/caixa.component';
-import { OrdemRelatorioComponent } from './ordem-relatorio/ordem-relatorio.component';
+import { CaixaComponent } from './caixa/caixa.component'; 
 import { ModuleWithProviders } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 
@@ -15,12 +13,10 @@ const APP_ROUTES: Routes = [
     { path: 'ordem-item-modal/:id', component: OrdemItemModalComponent },
     { path: '', component: LoginComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'itens', component: ItensComponent }, 
-    { path: 'relatorios', component: OrdemRelatorioComponent},
+    { path: 'itens', component: ItensComponent },  
     { path: 'naoEncontrado', component: ItemNaoEncontradoComponent },
     { path: 'caixa', component: CaixaComponent },
-    { path: 'caixa-incluir-movimentacao/:valor', component: CaixaComponent },
-    { path: 'caixa-incluir-movimentacao', component: CaixaIncluirMovimentacaoComponent }
-];
+    { path: 'caixa-incluir-movimentacao/:valor', component: CaixaComponent }
+    ];
 
 export const routing:  ModuleWithProviders = RouterModule.forRoot(APP_ROUTES);

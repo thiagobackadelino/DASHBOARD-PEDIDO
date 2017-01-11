@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
  
 import { Item } from './item';
 import { DataServiceItem } from '../services/data.service.item';

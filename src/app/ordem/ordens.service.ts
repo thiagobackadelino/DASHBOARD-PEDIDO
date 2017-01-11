@@ -1,5 +1,5 @@
 import { ItensService } from './../itens/itens.service';
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ordem } from './ordem';
 import { DataServiceOrdem } from '../services/data.service.ordem';

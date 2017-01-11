@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, 
+import { Component, OnInit, Output, Input, 
   OnChanges,
   DoCheck,
   AfterContentInit,

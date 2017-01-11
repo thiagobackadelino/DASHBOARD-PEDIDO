@@ -51,7 +51,7 @@ export class DataServiceCaixa {
     };
 
     this.db.sync(this.remote, options);
-    this.db.setMaxListeners(30);
+    this.db.setMaxListeners(0);
   }
 
   initCall() {
@@ -88,7 +88,7 @@ export class DataServiceCaixa {
         this.db.changes({
           live: true, since: 'now', include_docs:
           true
-        }).on('change', (change) => {
+        }).once('change', (change) => {
           this.handleChange(change);
         });
 

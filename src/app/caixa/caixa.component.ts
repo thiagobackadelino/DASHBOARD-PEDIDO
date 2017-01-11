@@ -1,4 +1,4 @@
-import { Movimentacao } from './../caixa-incluir-movimentacao/movimentacao';
+import { Movimentacao } from './movimentacao';
 import { CaixaService } from './caixa.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,8 +28,7 @@ export class CaixaComponent implements OnInit {
       (params: any) => {
         this.valor = params['valor'];
 
-        if (this.valor != null) {
-          console.log(this.valor);
+        if (this.valor != null) {  
           this.movimentacao.valor = Number(this.valor);
         }
       }
@@ -63,9 +62,10 @@ export class CaixaComponent implements OnInit {
     this.router.navigate(['/caixa-incluir-movimentacao/']);
   }
 
-  registrarMovimentacao() {
+  registrarMovimentacao() { 
     this.caixaService.registrarMovimentacao(this.movimentacao);
     this.getCaixaDiaAtual(); 
+    this.movimentacao = new Movimentacao(); 
   }
  
 

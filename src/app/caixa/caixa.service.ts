@@ -33,8 +33,7 @@ export class CaixaService {
         doc.data = new Date();
         this.dataService.existeCaixaDiaAtual(this.getIdCaixaDiaAtual()).then((data) => {
             if (data == true) {
-                this.getCaixaDiaAtual().then((data) => {
-                    console.log(data);
+                this.getCaixaDiaAtual().then((data) => { 
                     let caixa: any = {};
                     caixa = data;
                     caixa.movimentacoes.push(doc);

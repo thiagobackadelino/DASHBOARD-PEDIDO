@@ -12,36 +12,32 @@ import { routing } from './app.routing';
 import { ItensService } from './itens/itens.service';
 import { CaixaService } from './caixa/caixa.service';
 import { OrdensService } from './ordem/ordens.service';
-import { DataServiceItem } from './services/data.service.item'; 
-import { DataServiceOrdem } from './services/data.service.ordem'; 
-import { DataServiceCaixa } from './services/data.service.caixa'; 
+import { DataServiceItem } from './services/data.service.item';
+import { DataServiceOrdem } from './services/data.service.ordem';
+import { DataServiceCaixa } from './services/data.service.caixa';
 import { ItemNaoEncontradoComponent } from './item-nao-encontrado/item-nao-encontrado.component';
 import { MensagemComponent } from './mensagem/mensagem.component';
-import { OrdemComponent } from './ordem/ordem.component'; 
+import { OrdemComponent } from './ordem/ordem.component';
 import { OrdemItemModalComponent } from './ordem-item-modal/ordem-item-modal.component';
 import { OrdemItemSelecaoComponent } from './ordem-item-selecao/ordem-item-selecao.component';
 import { SeletorQuantidadeComponent } from './seletor-quantidade/seletor-quantidade.component';
-import { OrdemRelatorioComponent } from './ordem-relatorio/ordem-relatorio.component';
 import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
 import { CaixaComponent } from './caixa/caixa.component';
-import { CaixaIncluirMovimentacaoComponent } from './caixa-incluir-movimentacao/caixa-incluir-movimentacao.component';  
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    ItensComponent, 
+    ItensComponent,
     ItemNaoEncontradoComponent,
-     MensagemComponent,
-      OrdemComponent, 
-        OrdemItemModalComponent, 
-        OrdemItemSelecaoComponent,
-         SeletorQuantidadeComponent,
-         OrdemRelatorioComponent,
-         RemoveSpacesPipe,
-         CaixaComponent,
-         CaixaIncluirMovimentacaoComponent
+    MensagemComponent,
+    OrdemComponent,
+    OrdemItemModalComponent,
+    OrdemItemSelecaoComponent,
+    SeletorQuantidadeComponent,
+    RemoveSpacesPipe,
+    CaixaComponent
   ],
   imports: [
     BrowserModule,
@@ -51,12 +47,12 @@ import { CaixaIncluirMovimentacaoComponent } from './caixa-incluir-movimentacao/
     routing
   ],
   providers: [
-  ItensService,
-  OrdensService,
-  CaixaService,
-  DataServiceItem,
-  DataServiceOrdem,
-  DataServiceCaixa],
+    ItensService,
+    OrdensService,
+    CaixaService,
+    DataServiceItem,
+    DataServiceOrdem,
+    DataServiceCaixa],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

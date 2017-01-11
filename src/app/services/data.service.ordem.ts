@@ -23,8 +23,7 @@ export class DataServiceOrdem {
   constructor(private _http: Http, private zone: NgZone) {
 
     // database name
-
-    var PouchDB = require('pouchdb');
+ 
     PouchDB.plugin(require('pouchdb-upsert'));
 
     this.db = new PouchDB('dashboard-pedido-ordem');
@@ -51,7 +50,7 @@ export class DataServiceOrdem {
     };
 
     this.db.sync(this.remote, options);
-    this.db.setMaxListeners(30);
+    this.db.setMaxListeners(0);
   }
 
   initCall() {
@@ -90,7 +89,7 @@ export class DataServiceOrdem {
         this.db.changes({
           live: true, since: 'now', include_docs:
             true
-        }).on('change', (change) => {
+        }).once('change', (change) => {
           this.handleChange(change);
         });
 
@@ -118,7 +117,7 @@ export class DataServiceOrdem {
         this.db.changes({
           live: true, since: 'now', include_docs:
             true
-        }).on('change', (change) => {
+        }).once('change', (change) => {
           this.handleChange(change);
         });
 

@@ -46,7 +46,7 @@ export class DataServiceItem {
     };
 
     this.db.sync(this.remote, options);
-    this.db.setMaxListeners(30);
+    this.db.setMaxListeners(0);
 
   }
 
@@ -78,7 +78,7 @@ export class DataServiceItem {
         this.db.changes({
           live: true, since: 'now', include_docs:
             true
-        }).on('change', (change) => {
+        }).once('change', (change) => {
           this.handleChange(change);
         });
 
@@ -112,7 +112,7 @@ export class DataServiceItem {
         this.db.changes({
           live: true, since: 'now', include_docs:
             true
-        }).on('change', (change) => {
+        }).once('change', (change) => {
           this.handleChange(change);
         });
 

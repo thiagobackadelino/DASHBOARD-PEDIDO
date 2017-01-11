@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core'; 
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Ordem } from './ordem/ordem';
@@ -10,26 +10,30 @@ import { OrdensService } from './ordem/ordens.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  ordem  : Ordem;   
+  ordem: Ordem;
 
-  constructor(private ordensService: OrdensService, 
-              private router: Router ) { 
- 
-   }
 
-  ngOnInit(){
-      this.novaOrdem();
+
+  constructor(private ordensService: OrdensService,
+    private router: Router) {
+    var events = require('events');
+    events.defaultMaxListeners = 0;
 
   }
 
-   addData(event) {  
-     event.preventDefault();
-     this.ordensService.addItem(this.ordem); 
-     this.novaOrdem();
-     this.router.navigate(['/home']);
+  ngOnInit() {
+    this.novaOrdem();
+
   }
 
-  novaOrdem(){
+  addData(event) {
+    event.preventDefault();
+    this.ordensService.addItem(this.ordem);
+    this.novaOrdem();
+    this.router.navigate(['/home']);
+  }
+
+  novaOrdem() {
     this.ordem = new Ordem();
   }
 
