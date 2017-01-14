@@ -9,26 +9,16 @@ import { OrdensService } from '../ordem/ordens.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  ordens: any = [];
+ 
   
-  constructor(private ordensService: OrdensService) { }
+  constructor(private ordensService: OrdensService) { 
+   }
 
-  ngOnInit() {
-    this.ordensService.initCall();
+  ngOnInit() {  
   }
 
-    ngAfterViewInit() { 
-      this. getOrdens();
-  }
-
-    getOrdens() {
-    this.ordensService.getOrdens().then((data) => {
-      this.ordens = data;   
-    }).catch((ex) => {
-      console.error('Error fetching users', ex);
-    });
-
-  }
+ 
+ 
+  
 
 }

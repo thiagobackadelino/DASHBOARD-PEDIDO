@@ -1,14 +1,12 @@
 <!--<p>
   itens works!
 </p>-->
-    <div class="container-fluid">
-      <app-mensagem x={{classe}}></app-mensagem>
+    <div class="container-fluid"> 
       <div >
         <form (submit)="addData($event)" #itemForm="ngForm">
           <div class="form-group">
             <label for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome"
-                    
+            <input type="text" class="form-control" id="nome" 
                    [(ngModel)]="item.nome" name="nome"
                    #nome="ngModel"  [value]="selectedItem?.nome" >
             <div [hidden]="nome.valid || nome.pristine"

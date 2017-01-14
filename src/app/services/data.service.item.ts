@@ -9,8 +9,8 @@ import 'rxjs/add/operator/map';
 var PouchDB = require('pouchdb');
 
 @Injectable()
-export class DataServiceItem{
-  
+export class DataServiceItem {
+
   db: any;
   username: any;
   password: any;
@@ -20,18 +20,18 @@ export class DataServiceItem{
   results: any;
   api: any;
 
-  constructor(private _http: Http, private zone: NgZone) { 
- 
+  constructor(private _http: Http, private zone: NgZone) {
+
     // database name
     this.db = new PouchDB('dashboard-pedido-item');
-    
+
     // cloudant login details
     this.username = 'sonic';
-    this.password = 'sonic';    
-    
+    this.password = 'sonic';
+
     // cloudant, couchdb, couchbase remote url
     // eg - https://<your_host>.cloudant.com/todo
-    this.remote = 'http://sonic:sonic@localhost:5984/dashboard-pedido-item';
+    this.remote = 'http://sonic:sonic@192.168.0.103:5984/dashboard-pedido-item';
 
     // cloudant, couchdb, couchbase remote url
     // applicable when username/password set. 
@@ -46,20 +46,20 @@ export class DataServiceItem{
     };
 
     this.db.sync(this.remote, options);
-    this.db.setMaxListeners(30); 
-    
+    this.db.setMaxListeners(0);
+
   }
 
   initCall() {
     // make sure UI is initialised
     // correctly after sync.
-    this.zone.run(() => {});
+    this.zone.run(() => { });
   }
 
-  addDocument(doc){
-    this.db.put(doc); 
+  addDocument(doc) {
+    this.db.put(doc);
   }
- 
+
   deleteDocument(id) {
     this.db.remove(id);
   }
@@ -67,27 +67,29 @@ export class DataServiceItem{
   getDocumentById(id) {
     return new Promise(resolve => {
       this.db.get(id).then((result) => {
-        this.data = []; 
+        this.data = [];
         //console.log(result);
-        this.data.push(result); 
- 
+        this.data.push(result);
+
         this.data.reverse();
 
         resolve(this.data);
-        
-        this.db.changes({live: true, since: 'now', include_docs: 
-          true}).on('change', (change) => { 
-              this.handleChange(change);
+
+        this.db.changes({
+          live: true, since: 'now', include_docs:
+            true
+        }).once('change', (change) => {
+          this.handleChange(change);
         });
 
       }).catch((error) => {
- 
+
         console.log(error);
- 
-      }); 
- 
+
+      });
+
     });
- 
+
   }
 
   getDocumentos() {
@@ -97,63 +99,65 @@ export class DataServiceItem{
         limit: 30,
         descending: true
       }).then((result) => {
-        this.data = []; 
+        this.data = [];
 
         let docs = result.rows.map((row) => {
           this.data.push(row.doc);
         });
- 
+
         this.data.reverse();
 
         resolve(this.data);
-        
-        this.db.changes({live: true, since: 'now', include_docs: 
-          true}).on('change', (change) => {
-              this.handleChange(change);
+
+        this.db.changes({
+          live: true, since: 'now', include_docs:
+            true
+        }).once('change', (change) => {
+          this.handleChange(change);
         });
 
       }).catch((error) => {
- 
+
         console.log(error);
- 
-      }); 
- 
+
+      });
+
     });
- 
+
   }
- 
- handleChange(change){  
+
+  handleChange(change) {
 
     let changedDoc = null;
-    let changedIndex = null; 
+    let changedIndex = null;
 
-    this.data.forEach((doc, index) => { 
+    this.data.forEach((doc, index) => {
 
-      if(doc._id === change.id){
+      if (doc._id === change.id) {
         changedDoc = doc;
         changedIndex = index;
       }
- 
+
     });
- 
+
     //A document was deleted
-    if(change.deleted){
+    if (change.deleted) {
       this.data.splice(changedIndex, 1);
-    } 
-    else {
- 
-      //A document was updated
-      if(changedDoc){ 
-        this.data[changedIndex] = change.doc;
-      } 
-      //A document was added
-      else { 
-        this.data.push(change.doc);                
-      }
- 
     }
- 
-} 
+    else {
+
+      //A document was updated
+      if (changedDoc) {
+        this.data[changedIndex] = change.doc;
+      }
+      //A document was added
+      else {
+        this.data.push(change.doc);
+      }
+
+    }
+
+  }
 
 
 }

@@ -1,7 +1,14 @@
 <li class="list-group-item" *ngFor="let item of itens">
-              <span class="tag tag-default tag-pill float-xs-right"> {{ item.valor }}</span>
-              <a class="collection-item"
-                >
-            {{ item.nome }}
+  <h5>
+     <span class="tag tag-success float-xs-right">Valor: {{ item.valor | currency:'BRL':true }}</span>
+     <app-seletor-quantidade [valor]="item.quantidade != null ? item.quantidade :  '0'"  
+(mudouValor)="montarPedido($event,item) "></app-seletor-quantidade>
+     </h5>
+  <a class="collection-item"> 
+            {{ item.nome }}  
             </a>
-            </li>
+</li>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="voltarHome();">Fechar</button>
+  <button type="button" class="btn btn-primary" (click)="editarItem(id,itensSelecionados);">Salvar</button>
+</div>
