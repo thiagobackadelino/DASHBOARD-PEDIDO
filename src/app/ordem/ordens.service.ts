@@ -33,8 +33,7 @@ export class OrdensService {
         ordem.status = "ABERTA";
         ordem.delivery = false;
         ordem.prioridade = false;
-        ordem.excluida = false;
-        ordem.observacao = '';
+        ordem.excluida = false; 
         ordem.quantidadePessoas = 0;
         this.dataService.addDocument(ordem);
     }
@@ -54,15 +53,15 @@ export class OrdensService {
                         if (this.data.itens[y] != null) {
                             if (!this.existeDeterminadoItemNaLista(itensSelecionados[x], this.data.itens)) {
                                 //console.log("nao existe -- " + itensSelecionados[x].nome)
-                                if (itensSelecionados[x].quantidade > 0) {
+                                if (itensSelecionados[x].quantidadeSolicitada > 0) {
                                     this.data.itens.push(itensSelecionados[x]);
                                 }
                             }
                             if (this.existeDeterminadoItemNaLista(itensSelecionados[x], this.data.itens)) {
                                 if (this.data.itens[y]._id == itensSelecionados[x]._id) {
-                                    if (itensSelecionados[x].quantidade > 0) {
-                                        this.data.itens[y].quantidade = itensSelecionados[x].quantidade;
-                                    } else if (itensSelecionados[x].quantidade == 0) {
+                                    if (itensSelecionados[x].quantidadeSolicitada > 0) {
+                                        this.data.itens[y].quantidadeSolicitada = itensSelecionados[x].quantidadeSolicitada;
+                                    } else if (itensSelecionados[x].quantidadeSolicitada == 0) {
                                         this.data.itens.splice(y, 1);
                                     }
                                 }
@@ -101,12 +100,17 @@ export class OrdensService {
         this.getDocumentById(ordemid).then((data) => {
             this.data = data[0];
              for(var x in this.data.itens){  
-                if(this.data.itens[x]._id == itemid){  
+                if(this.data.itens[x]._id == itemid){ 
+                     if(this.data.itens[x].quantidadeFeita){ 
+                         this.data.itens[x].quantidadeFeita += 1;
+                     }else{ 
+                        this.data.itens[x].quantidadeFeita = 1;
+                }/*
                      if(this.data.itens[x].feito){
                          this.data.itens[x].feito = false;
                      }else{
                          this.data.itens[x].feito = true;
-                     }
+                     }*/
                 }
             }
             
@@ -179,7 +183,7 @@ export class OrdensService {
             this.data = data[0]; 
                 this.data.quantidadePessoas = $event.novoValor; 
             //this.dataService.addDocument(this.data);
-            this.dataService.addDocument(this.data);
+            this.dataService.addDocument(this.data); 
         }).catch((ex) => {
             console.error('Error fetching  alterarPrioridade', ex);
         });        

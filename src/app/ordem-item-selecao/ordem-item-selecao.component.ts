@@ -35,19 +35,19 @@ export class OrdemItemSelecaoComponent implements OnInit {
 
   montarPedido(event, item) {
     if (this.itensSelecionados.length == 0) {
-      item.feito = false;
-      item.quantidade = event.novoValor;
+      /*item.feito = false;*/
+      item.quantidadeSolicitada = event.novoValor;
       this.itensSelecionados.push(item);
     } else {
-      item.feito = false;
-      item.quantidade = event.novoValor;
+      /*item.feito = false;*/
+      item.quantidadeSolicitada = event.novoValor;
       if (!this.existeDeterminadoItemNaLista(item)) {
-        if (item.quantidade == 0) {
-        } else if (item.quantidade > 0) {
+        if (item.quantidadeSolicitada == 0) {
+        } else if (item.quantidadeSolicitada > 0) {
           this.itensSelecionados.push(item);
         }
       } else if (this.existeDeterminadoItemNaLista(item)) { 
-        if (item.quantidade == 0) { 
+        if (item.quantidadeSolicitada == 0) { 
         }
       } 
     }
@@ -76,6 +76,7 @@ export class OrdemItemSelecaoComponent implements OnInit {
   }
 
   editarItem(id, itensSelecionados) {
+    console.table(itensSelecionados);
     this.ordensService.editarItem(id, itensSelecionados);
   }
 

@@ -32,7 +32,7 @@ export class OrdemItemModalComponent implements OnInit {
 
     this.inscricao = this.route.params.subscribe(
       (params: any) => {
-        this.id = params['id'];
+        this.id = params['id']; 
         if (this.id != null) {
           this.ordensService.getDocumentById(this.id).then((data) => {
             this.ordem = data[0];
@@ -58,7 +58,7 @@ export class OrdemItemModalComponent implements OnInit {
 
           } else if (ordem.itens[y].nome == data[x].nome) {
             //console.log(" xb ---"+ordem.itens[y].nome +"----- yb "+data[x].nome);
-            data[x].quantidade = ordem.itens[y].quantidade;
+            data[x].quantidade = ordem.itens[y].quantidadeSolicitada;
           }
         }
       }

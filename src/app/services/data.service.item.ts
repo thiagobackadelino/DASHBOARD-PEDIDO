@@ -31,7 +31,7 @@ export class DataServiceItem {
 
     // cloudant, couchdb, couchbase remote url
     // eg - https://<your_host>.cloudant.com/todo
-    this.remote = 'http://sonic:sonic@192.168.0.102:5984/dashboard-pedido-item';
+    this.remote = 'http://sonic:sonic@192.168.0.103:5984/dashboard-pedido-item';
 
     // cloudant, couchdb, couchbase remote url
     // applicable when username/password set. 

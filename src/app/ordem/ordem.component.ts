@@ -26,16 +26,17 @@ export class OrdemComponent implements OnInit {
     private ordensService: OrdensService,
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataServiceOrdem) {
+    private dataService: DataServiceOrdem) { 
   }
 
-  ngOnInit() {
-    this.getOrdens();
+   public ngOnInit():void  {
+    this.getOrdens(); 
   }
 
   ngAfterViewInit() { 
       this.getOrdens();
-  }
+  } 
+ 
 
   getOrdens() {
     this.ordensService.getOrdens().then((data) => {
@@ -52,17 +53,17 @@ export class OrdemComponent implements OnInit {
 
   alterarStatus(id, status) { 
     this.ordensService.alterarStatus(id, status);
-    this.getOrdens();
+     this.getOrdens();
   }
 
   alterarDelivery(id) {
-    this.ordensService.alterarDelivery(id); 
+    this.ordensService.alterarDelivery(id);  
     this.getOrdens();
   }
 
   alterarPrioridade(id) {
     this.ordensService.alterarPrioridade(id);
-    this.getOrdens(); 
+     this.getOrdens(); 
   }
 
   alterarStatusDoItem(ordemid,itemid) {  
@@ -74,7 +75,7 @@ export class OrdemComponent implements OnInit {
   getQuantidade(itens) {
     var a = 0;
     for (var x in itens) {
-      a = a + Number(itens[x].quantidade);
+      a = a + Number(itens[x].quantidadeSolicitada);
     }
     return a;
   }
@@ -82,7 +83,7 @@ export class OrdemComponent implements OnInit {
   getValorTotal(itens) {
     var a = 0;
     for (var x in itens) {
-      a = a + (Number(itens[x].valor) * Number(itens[x].quantidade));
+      a = a + (Number(itens[x].valor) * Number(itens[x].quantidadeSolicitada));
     }
     return a;
   }
@@ -90,7 +91,7 @@ export class OrdemComponent implements OnInit {
   getQuantidadeMaiorQueZero(itens) {
     var a = 0;
     for (var x in itens) {
-      a = a + Number(itens[x].quantidade);
+      a = a + Number(itens[x].quantidadeSolicitada);
     } if (a > 0) {
       return true;
     } else {
@@ -100,7 +101,7 @@ export class OrdemComponent implements OnInit {
   
   excluirOrdem(id){
     this.ordensService.excluirOrdem(id);
-    this.getOrdens();
+     this.getOrdens();
   }
 
   incluirQuantidadeDePessoas($event,ordemid){ 

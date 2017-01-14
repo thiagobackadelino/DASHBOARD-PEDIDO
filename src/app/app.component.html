@@ -19,7 +19,7 @@
           </li>
         </ul>
         <form (submit)="addData($event)" #ordemForm="ngForm" class="form-inline float-xs-right">
-          <input class="form-control" type="text" placeholder="Incluir Comanda" [(ngModel)]="ordem.nome" 
+          <input class="form-control" type="text" placeholder="Incluir Ordem" [(ngModel)]="ordem.nome" 
           name="nome" #nome="ngModel" required>
 
           <button class="btn btn-success" type="submit">Criar</button>
@@ -30,6 +30,7 @@
   <div class="jumbotron">
     <div class="container-fluid">
       <router-outlet></router-outlet>
+      
     </div>
   </div>
 </div>
