@@ -67,7 +67,7 @@ export class CaixaService {
 
     getIdCaixaDiaAtual() {
         let date = new Date();
-        let id = date.getFullYear() + "" + (date.getMonth() + 1) + "" + date.getDate();
+        let id = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
         return id;
     }
 

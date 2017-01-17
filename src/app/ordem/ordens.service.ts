@@ -101,16 +101,12 @@ export class OrdensService {
             this.data = data[0];
              for(var x in this.data.itens){  
                 if(this.data.itens[x]._id == itemid){ 
-                     if(this.data.itens[x].quantidadeFeita){ 
+                     if(this.data.itens[x].quantidadeFeita < this.data.itens[x].quantidadeSolicitada){ 
+                         console.log( "A");  
                          this.data.itens[x].quantidadeFeita += 1;
-                     }else{ 
+                     }else if(!this.data.itens[x].quantidadeFeita){  
                         this.data.itens[x].quantidadeFeita = 1;
-                }/*
-                     if(this.data.itens[x].feito){
-                         this.data.itens[x].feito = false;
-                     }else{
-                         this.data.itens[x].feito = true;
-                     }*/
+                }
                 }
             }
             
@@ -199,5 +195,11 @@ export class OrdensService {
         });        
     }
 
+
+    getIdDiaAtual() {
+        let date = new Date();
+        let id = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+        return id;
+    }
 
 }

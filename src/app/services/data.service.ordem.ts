@@ -23,11 +23,11 @@ export class DataServiceOrdem {
   constructor(private _http: Http, private zone: NgZone) {
 
     // database name
- 
+
     PouchDB.plugin(require('pouchdb-upsert'));
 
     this.db = new PouchDB('dashboard-pedido-ordem');
-    
+
 
     // cloudant login details
     this.username = 'sonic';
@@ -49,70 +49,89 @@ export class DataServiceOrdem {
       }
     };
 
-     this.db.sync(this.remote, options); 
+    this.db.sync(this.remote, options);
 
-   this.db.changes({live: true, since: 'now'})
-  .on('change', (change) => {
-    this.zone.run(() => {
-       this.reactToChanges(change);
-    });
-});
+    this.db.changes({ live: true, since: 'now', include_docs: true })
+      .on('change', (change) => {
+        this.zone.run(() => {
+          this.handleChange(change);
+        });
+      });
   }
 
   initCall() {
     // make sure UI is initialised
-    // correctly after sync. 
+    // correctly after sync.
+    console.log("this.zone.run(() => { });");
     this.zone.run(() => { });
   }
 
+  // NOTE: Another way to retrieve data via a REST call
+  getUrl() {
+    let headers = new Headers();
+    headers.append("Authorization", "Basic " + btoa(this.username + ":" + this.password));
+    headers.append("Content-Type", "application/x-www-form-urlencoded");
+
+    this.api = this.remote + '/_all_docs?include_docs=true';
+
+    return new Promise(resolve => {
+      this._http.get(this.api, { headers: headers })
+        .map(res => res.json())
+        .subscribe(data => {
+          this.results = data;
+
+          this.data = [];
+
+          let docs = this.results.rows.map((row) => {
+            this.data.push(row.doc);
+          });
+
+          resolve(this.data);
+
+          this.db.changes({ live: true, since: 'now', include_docs: true }).on('change', (change) => {
+            this.handleChange(change);
+          });
+
+        });
+    });
+
+  }
+
   addDocument(doc) {
-    this.db.put(doc); 
+    this.db.put(doc);
   }
 
   deleteDocument(id) {
     this.db.remove(id);
   }
 
-
   getOrdens() {
     return new Promise(resolve => {
-      this.db.allDocs({
+       this.db.allDocs({
         include_docs: true,
-        limit: 30,
         descending: false
       }).then((result) => {
         this.data = [];
-
         let docs = result.rows.map((row) => {
           this.data.push(row.doc);
           resolve(this.data);
         });
-
-       // this.data.reverse();
- 
-        /*this.db.changes({
-          live: true, since: 'now', include_docs:
-            true
-        }).once('change', (change) => {
-          this.handleChange(change);
-        });*/
-
       }).catch((error) => {
-
         console.log(error);
+      }); 
 
-      });
 
     });
-
   }
 
   getDocumentById(id) {
     return new Promise(resolve => {
       this.db.get(id).then((result) => {
-        this.data = []; 
+        this.data = [];
         //console.log(result);
-        this.data.push(result); 
+        this.data.push(result);
+
+        this.data.reverse();
 
         resolve(this.data);
 
@@ -133,98 +152,147 @@ export class DataServiceOrdem {
 
   }
 
-    alterarPrioridade(result) { 
-      //console.log(result);
-          this.db.upsert(result._id, function (doc) {
-            
-          }).then(function (changes) {
-            // success, res is {rev: '1-xxx', updated: true}
-           // console.log("sucesso"); 
-          }).catch(function (err) {
-            // error
-            console.log("erro alterarPrioridade");
-          });
+  alterarPrioridade(result) {
+    //console.log(result);
+    this.db.upsert(result._id, function (doc) {
+
+      return result;
+    }).then(function (changes) {
+      // success, res is {rev: '1-xxx', updated: true}
+      // console.log("sucesso"); 
+    }).catch(function (err) {
+      // error
+      console.log("erro alterarPrioridade");
+    });
   }
 
+  handleChange(change) {
 
-  reactToChanges(change) { 
-    if (change.deleted) {
-      // change.id holds the deleted id
-      this.onDeleted(change.id);
-    } else { // updated/inserted
-      // change.doc holds the new doc
-      this.onUpdatedOrInserted(change.doc);
-    }
-    //renderDocsSomehow(); 
-  }
-
-
- binarySearch(arr, docId) {
-  var low = 0, high = arr.length, mid;
-  while (low < high) {
-    mid = (low + high) >>> 1; // faster version of Math.floor((low + high) / 2)
-    arr[mid]._id < docId ? low = mid + 1 : high = mid
-  }
-  return low;
-}
-
-onDeleted(id) {
-  var index = this.binarySearch(this.data, id);
-  var doc = this.data[index];
-  if (doc && doc._id === id) {
-    this.data.splice(index, 1);
-  }
-}
-
-onUpdatedOrInserted(newDoc) {
-  var index = this.binarySearch(this.data, newDoc._id);
-  var doc = this.data[index];
-  if (doc && doc._id === newDoc._id) { // update
-    this.data[index] = newDoc;
-  } else { // insert
-    this.data.splice(index, 0, newDoc);
-  }
-}
-
-
-handleChange(change){ 
     this.zone.run(() => {
-      if(change.updated){
+      if (change.updated) {
         this.data.push(change.doc);
       }
- 
+
       let changedDoc = null;
       let changedIndex = null;
- 
+
       this.data.forEach((doc, index) => {
- 
-        if(doc._id === change.id){
+
+        if (doc._id === change.id) {
           changedDoc = doc;
           changedIndex = index;
         }
- 
+
       });
- 
+
       //A document was deleted
-      if(change.deleted){
+      if (change.deleted) {
         this.data.splice(changedIndex, 1);
-      } 
+      }
       else {
- 
+
         //A document was updated
-        if(changedDoc){
+        if (changedDoc) {
           this.data[changedIndex] = change.doc;
-        } 
+        }
         //A document was added
         else {
-          this.data.push(change.doc);        
+          this.data.push(change.doc);
         }
- 
+
       }
- 
+
     });
+
+  }
+
+
+  //Temporary queries
+  getOrdensPorStatusTQ(status) {
+    return new Promise(resolve => {
+      this.db.query(function (doc, emit) {
+        emit(doc.status);
+      },
+        { include_docs: true, key: status }).then(function (result) {
+          console.log(result);
+        }).catch(function (err) {
+          console.log("nao achou");
+        });
+    });
+  }
+
+  //Persistent queries
+  getOrdensPorStatusPQ() {
+    return new Promise(resolve => {
+      var emit = "function (doc) { emit(doc.name); }" // <------ OK 
+      var ddoc = {
+        _id: '_design/dia_atual',
+        views: {
+          by_name: {
+            map: emit //function (doc) { emit(doc.name); }   <-----  X
+          }
+        }
+      };
+      // save it
+      this.db.put(ddoc).then(function () {
+        // success!
+      }).catch(function (err) {
+        // some error (maybe a 409, because it already exists?)
+      });
+
+      this.db.query('my_index/by_name', {
+        limit: 1 //  0  return any results
+        , include_docs: true
+      }).then(function (res) {
+        // index was built!
+        console.log(res);
+      }).catch(function (err) {
+        // some error
+      });
+    });
+  }
+
+  getOrdensDoDiaAtualPQ() {
+    return new Promise(resolve => {
+      var date = new Date().toISOString();
+      console.log(date.replace('-','').replace('-','').substring(0, 8));
  
-  }  
+      var emit = "function (doc) { emit(doc.data.charAt(0)); }"  
+      var ddoc = {
+        _id: '_design/my_dia_atual',
+        views: {
+          data: { 
+            map: "function (doc) { emit(doc.data.replace('-','').replace('-','').substring(0, 8));} " 
+          }
+        }
+      };
+      // save it
+      this.db.put(ddoc).then(function () {
+        // success!
+      }).catch(function (err) {
+        // some error (maybe a 409, because it already exists?)
+      });
+
+      this.db.query('my_dia_atual/data', { 
+        startkey:"20170117",
+        include_docs: true
+         
+      }).then(function (res) {
+        // index was built!
+        console.log(res);
+      }).catch(function (err) {
+        // some error
+         console.log(err);
+      });
+
+    });
+  }
+
+  getDiaAtual() {
+    let date = new Date();
+    let id = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    return id;
+  }
 
 }
 

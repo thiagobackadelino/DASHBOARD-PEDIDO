@@ -30,7 +30,7 @@ export class OrdemComponent implements OnInit {
   }
 
    public ngOnInit():void  {
-    this.getOrdens(); 
+    //this.getOrdens(); 
   }
 
   ngAfterViewInit() { 

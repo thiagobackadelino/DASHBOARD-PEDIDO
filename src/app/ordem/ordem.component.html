@@ -47,9 +47,9 @@
         <!--<div class="collapse" id="" [attr.id]="'' + ordem.nome | removeSpaces">-->
         <ul class="list-group list-group-flush" *ngFor="let item of ordem.itens">
           <!--<app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>-->
-          <li class="list-group-item" (click)="alterarStatusDoItem(ordem._id,item._id)">
-             {{item.nome}}
-            <progressbar [max]="item.quantidadeSolicitada" [value]="item.quantidadeFeita">
+          <li class="list-group-item "   >
+             {{item.nome}} - {{item.quantidadeSolicitada}}
+            <progressbar [max]="item.quantidadeSolicitada" [value]="item.quantidadeFeita" (click)="alterarStatusDoItem(ordem._id,item._id)">
               <span style="color:white; white-space:nowrap;">{{item.quantidadeFeita}} / {{item.quantidadeSolicitada}}</span>
 </progressbar> 
 </li>
