@@ -18,7 +18,7 @@
             <a class="nav-link" routerLink="/caixa">CAIXA</a>
           </li>
         </ul>
-        <form (submit)="addData($event)" #ordemForm="ngForm" class="form-inline float-xs-right">
+        <form (submit)="addOrdem($event)" #ordemForm="ngForm" class="form-inline float-xs-right">
           <input class="form-control" type="text" placeholder="Incluir Ordem" [(ngModel)]="ordem.nome" 
           name="nome" #nome="ngModel" required>
 

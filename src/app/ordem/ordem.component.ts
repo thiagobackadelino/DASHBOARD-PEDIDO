@@ -34,15 +34,15 @@ export class OrdemComponent implements OnInit {
   }
 
   ngAfterViewInit() { 
-      this.getOrdens();
+      this.getOrdensDoDiaAtualPQ();
   } 
  
 
-  getOrdens() {
-    this.ordensService.getOrdens().then((data) => {
+  getOrdensDoDiaAtualPQ() {
+    this.ordensService.getOrdensDoDiaAtualPQ().then((data) => {
       this.ordens = data;   
     }).catch((ex) => {
-      console.error('Error fetching getOrdens', ex);
+      console.error('Error fetching getOrdensDoDiaAtualPQ', ex);
     }); 
   }
 
@@ -53,22 +53,22 @@ export class OrdemComponent implements OnInit {
 
   alterarStatus(id, status) { 
     this.ordensService.alterarStatus(id, status);
-     this.getOrdens();
+     this.getOrdensDoDiaAtualPQ();
   }
 
   alterarDelivery(id) {
     this.ordensService.alterarDelivery(id);  
-    this.getOrdens();
+    this.getOrdensDoDiaAtualPQ();
   }
 
   alterarPrioridade(id) {
     this.ordensService.alterarPrioridade(id);
-     this.getOrdens(); 
+     this.getOrdensDoDiaAtualPQ(); 
   }
 
   alterarStatusDoItem(ordemid,itemid) {  
     this.ordensService.alterarStatusDoItem(ordemid,itemid);
-    this.getOrdens(); 
+    this.getOrdensDoDiaAtualPQ(); 
   }
 
 
@@ -101,17 +101,17 @@ export class OrdemComponent implements OnInit {
   
   excluirOrdem(id){
     this.ordensService.excluirOrdem(id);
-     this.getOrdens();
+     this.getOrdensDoDiaAtualPQ();
   }
 
   incluirQuantidadeDePessoas($event,ordemid){ 
     this.ordensService.incluirQuantidadeDePessoas($event,ordemid);
-    this.getOrdens();
+    this.getOrdensDoDiaAtualPQ();
   }
   
   salvarObservacao(ordemid,valor){ 
     this.ordensService.salvarObservacao(ordemid,valor);
-    this.getOrdens();
+    this.getOrdensDoDiaAtualPQ();
   }
 
     incluirMovimentacao(valor) {

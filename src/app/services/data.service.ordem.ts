@@ -35,7 +35,7 @@ export class DataServiceOrdem {
 
     // cloudant, couchdb, couchbase remote url
     // eg - https://<your_host>.cloudant.com/todohttp://sonic:sonic@127.0.0.1:5984/
-    this.remote = 'http://sonic:sonic@192.168.0.103:5984/dashboard-pedido-ordem';
+    this.remote = 'http://sonic:sonic@192.168.0.101:5984/dashboard-pedido-ordem';
 
     // cloudant, couchdb, couchbase remote url
     // applicable when username/password set. 
@@ -127,29 +127,13 @@ export class DataServiceOrdem {
   getDocumentById(id) {
     return new Promise(resolve => {
       this.db.get(id).then((result) => {
-        this.data = [];
-        //console.log(result);
+        this.data = []; 
         this.data.push(result);
-
-        this.data.reverse();
-
-        resolve(this.data);
-
-        /*this.db.changes({
-          live: true, since: 'now', include_docs:
-            true
-        }).once('change', (change) => {
-          this.handleChange(change);
-        });*/
-
-      }).catch((error) => {
-
-        console.log(error);
-
-      });
-
-    });
-
+        resolve(this.data);  
+      }).catch((error) => { 
+        console.log(error); 
+      }); 
+    }); 
   }
 
   alterarPrioridade(result) {
@@ -251,46 +235,49 @@ export class DataServiceOrdem {
       });
     });
   }
-
+  //Temporary queries
   getOrdensDoDiaAtualPQ() {
-    return new Promise(resolve => {
-      var date = new Date().toISOString();
-      console.log(date.replace('-','').replace('-','').substring(0, 8));
- 
-      var emit = "function (doc) { emit(doc.data.charAt(0)); }"  
-      var ddoc = {
-        _id: '_design/my_dia_atual',
-        views: {
-          data: { 
-            map: "function (doc) { emit(doc.data.replace('-','').replace('-','').substring(0, 8));} " 
-          }
-        }
-      };
-      // save it
-      this.db.put(ddoc).then(function () {
-        // success!
+    var date = new Date().toISOString().substring(0,10);
+     return new Promise(resolve => {
+      this.db.query(function (doc, emit) { 
+        if(doc.data.substring(0,10) == date)
+        emit(doc.data);
+      },
+        { include_docs: true}).then((result) => {
+        this.data = [];
+        let docs = result.rows.map((row) => {
+          this.data.push(row.doc);
+          resolve(this.data);
+        });
       }).catch(function (err) {
-        // some error (maybe a 409, because it already exists?)
-      });
+          console.log("nao achou");
+        });
+    });
+  }
 
-      this.db.query('my_dia_atual/data', { 
-        startkey:"20170117",
-        include_docs: true
-         
-      }).then(function (res) {
-        // index was built!
-        console.log(res);
+  getOrdensTeste(){
+    var date = new Date().toISOString().substring(0,10);
+     return new Promise(resolve => {
+      this.db.query(function (doc, emit) {
+        console.log(doc);
+        if(doc.data.substring(0,10) == date)
+        emit(doc.data);
+      },
+        { include_docs: true}).then((result) => {
+        this.data = [];
+        let docs = result.rows.map((row) => {
+          this.data.push(row.doc);
+          resolve(this.data);
+        });
       }).catch(function (err) {
-        // some error
-         console.log(err);
-      });
-
+          console.log("nao achou");
+        });
     });
   }
 
   getDiaAtual() {
     let date = new Date();
-    let id = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    let id = date.getFullYear()+"-"+(date.getMonth()+1)+"-" + date.getDate();
     return id;
   }
 

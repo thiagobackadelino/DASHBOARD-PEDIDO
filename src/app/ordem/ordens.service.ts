@@ -27,19 +27,15 @@ export class OrdensService {
 
 
 
-    addItem(ordem: Ordem) {
-        ordem._id = new Date().toISOString() + Math.random();
-        ordem.data = new Date();
+    addOrdem(ordem: Ordem) {
+        ordem._id = ""+(Math.random() * 10);
+        ordem.data = new Date().toISOString();
         ordem.status = "ABERTA";
-        ordem.delivery = false;
-        ordem.prioridade = false;
-        ordem.excluida = false; 
-        ordem.quantidadePessoas = 0;
         this.dataService.addDocument(ordem);
     }
 
-    getOrdens() {
-        return this.dataService.getOrdens();
+    getOrdensDoDiaAtualPQ() {
+        return this.dataService.getOrdensDoDiaAtualPQ();
     }
 
     editarItem(id, itensSelecionados) {

@@ -26,9 +26,9 @@ export class AppComponent implements OnInit {
 
   }
 
-  addData(event) {
+  addOrdem(event) {
     event.preventDefault();
-    this.ordensService.addItem(this.ordem);
+    this.ordensService.addOrdem(this.ordem);
     this.novaOrdem();
     this.router.navigate(['/home']);
   }

@@ -6,7 +6,7 @@
         public nome: string;
         public status: string;
         public observacao: string;
-        public data: Date;
+        public data: string;
         public delivery: boolean;
         public prioridade: boolean;
         public itens: any = [];
