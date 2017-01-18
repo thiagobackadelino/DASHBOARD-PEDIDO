@@ -237,10 +237,10 @@ export class DataServiceOrdem {
   }
   //Temporary queries
   getOrdensDoDiaAtualPQ() {
-    var date = new Date().toISOString().substring(0,10);
+    var date = this.getDiaAtual(); 
      return new Promise(resolve => {
       this.db.query(function (doc, emit) { 
-        if(doc.data.substring(0,10) == date)
+        if(doc.data == date)
         emit(doc.data);
       },
         { include_docs: true}).then((result) => {
@@ -255,15 +255,14 @@ export class DataServiceOrdem {
     });
   }
 
-  getOrdensTeste(){
-    var date = new Date().toISOString().substring(0,10);
+  getDocumentByIdTQ(id){ 
      return new Promise(resolve => {
       this.db.query(function (doc, emit) {
-        console.log(doc);
-        if(doc.data.substring(0,10) == date)
-        emit(doc.data);
+         
+          emit(doc._id); 
+        
       },
-        { include_docs: true}).then((result) => {
+        { include_docs: true, key:id}).then((result) => {
         this.data = [];
         let docs = result.rows.map((row) => {
           this.data.push(row.doc);
@@ -275,11 +274,10 @@ export class DataServiceOrdem {
     });
   }
 
-  getDiaAtual() {
-    let date = new Date();
-    let id = date.getFullYear()+"-"+(date.getMonth()+1)+"-" + date.getDate();
-    return id;
-  }
+    getDiaAtual() {
+        let date = new Date();
+        return date.toISOString().substring(0,10);
+    }
 
 }
 

@@ -29,7 +29,8 @@ export class OrdensService {
 
     addOrdem(ordem: Ordem) {
         ordem._id = ""+(Math.random() * 10);
-        ordem.data = new Date().toISOString();
+        ordem.data = this.getDiaAtual();
+        ordem.hora = this.getHoraAtual();
         ordem.status = "ABERTA";
         this.dataService.addDocument(ordem);
     }
@@ -127,7 +128,7 @@ export class OrdensService {
     }
 
     alterarDelivery(id) {
-        this.getDocumentById(id).then((data) => {
+        this.dataService.getDocumentByIdTQ(id).then((data) => {
             this.data = data[0];
             if (this.data.delivery) {
                 this.data.delivery = false;
@@ -192,10 +193,13 @@ export class OrdensService {
     }
 
 
-    getIdDiaAtual() {
+    getDiaAtual() {
         let date = new Date();
-        let id = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-        return id;
+        return date.toISOString().substring(0,10);
+    }
+
+    getHoraAtual() { 
+        return Date.now();
     }
 
 }

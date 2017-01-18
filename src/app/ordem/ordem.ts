@@ -7,6 +7,7 @@
         public status: string;
         public observacao: string;
         public data: string;
+        public hora: number;
         public delivery: boolean;
         public prioridade: boolean;
         public itens: any = [];

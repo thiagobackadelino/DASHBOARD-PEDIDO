@@ -63,7 +63,7 @@
     [(ngModel)]="ordem.observacao" (keyup.enter)="salvarObservacao(ordem._id,ordem.observacao)" (blur)="salvarObservacao(ordem._id,ordem.observacao)"></textarea>
 </div>
 <div class="card-footer text-muted">
-  <p>{{ ordem.data | date }} - {{ ordem.data | date:'mediumTime' }}
+  <p>{{ ordem.data | date }} - {{ ordem.hora | date:'mediumTime' }}
     <app-seletor-quantidade [valor]="ordem.quantidadePessoas == null ? 1 :  ordem.quantidadePessoas" (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
   </p>
   <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
@@ -142,7 +142,7 @@
     [(ngModel)]="ordem.observacao" (keyup.enter)="salvarObservacao(ordem._id,ordem.observacao)" (blur)="salvarObservacao(ordem._id,ordem.observacao)"></textarea>
 </div>
 <div class="card-footer text-muted">
-  <p>{{ ordem.data | date }} - {{ ordem.data | date:'mediumTime' }}
+  <p>{{ ordem.data | date }} - {{ ordem.hora | date:'mediumTime' }}
     <app-seletor-quantidade  [valor]="ordem.quantidadePessoas == null ? 1 :  ordem.quantidadePessoas" (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
   </p>
   <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
@@ -220,7 +220,7 @@
     [(ngModel)]="ordem.observacao" (keyup.enter)="salvarObservacao(ordem._id,ordem.observacao)" (blur)="salvarObservacao(ordem._id,ordem.observacao)"></textarea>
 </div>
 <div class="card-footer text-muted">
-  <p>{{ ordem.data | date }} - {{ ordem.data | date:'mediumTime' }}
+  <p>{{ ordem.data | date }} - {{ ordem.hora | date:'mediumTime' }}
     <app-seletor-quantidade  [valor]="ordem.quantidadePessoas == null ? 1 :  ordem.quantidadePessoas" (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
   </p>
   <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
