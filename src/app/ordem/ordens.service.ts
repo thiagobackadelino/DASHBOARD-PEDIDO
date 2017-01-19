@@ -1,5 +1,5 @@
 import { ItensService } from './../itens/itens.service';
-import { Injectable } from '@angular/core';
+import { Injectable,EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ordem } from './ordem';
 import { DataServiceOrdem } from '../services/data.service.ordem';
@@ -11,9 +11,7 @@ export class OrdensService {
     data: any = [];
     listaDeItensDoPedido: any = [];
     comparativo: number = 0;
-    ordem: Ordem;
-
-
+    ordem: Ordem; 
     constructor(
         public dataService: DataServiceOrdem,
         private route: ActivatedRoute,
@@ -28,7 +26,7 @@ export class OrdensService {
 
 
     addOrdem(ordem: Ordem) {
-        ordem._id = ""+(Math.random() * 10);
+        ordem._id = "" + this.getDiaAtual() + this.getHoraAtual() + (Math.random() * 10);
         ordem.data = this.getDiaAtual();
         ordem.hora = this.getHoraAtual();
         ordem.status = "ABERTA";
@@ -80,65 +78,8 @@ export class OrdensService {
         return this.dataService.getDocumentById(id);
     }
 
-
-    alterarStatus(id, status) {
-        this.getDocumentById(id).then((data) => {
-            this.data = data[0];
-            //console.log( status);  
-            this.data.status = status;
-            //console.log(JSON.stringify(this.data)); 
-            this.dataService.addDocument(this.data);
-        }).catch((ex) => {
-            console.error('Error fetching  alterarStatus', ex);
-        });
-    }
-
-    alterarStatusDoItem(ordemid,itemid) {  
-        this.getDocumentById(ordemid).then((data) => {
-            this.data = data[0];
-             for(var x in this.data.itens){  
-                if(this.data.itens[x]._id == itemid){ 
-                     if(this.data.itens[x].quantidadeFeita < this.data.itens[x].quantidadeSolicitada){ 
-                         console.log( "A");  
-                         this.data.itens[x].quantidadeFeita += 1;
-                     }else if(!this.data.itens[x].quantidadeFeita){  
-                        this.data.itens[x].quantidadeFeita = 1;
-                }
-                }
-            }
-            
-            this.dataService.addDocument(this.data);
-        }).catch((ex) => {
-            console.error('Error fetching  alterarStatus', ex);
-        });
-    }
-
-    excluirOrdem(id) {
-        this.getDocumentById(id).then((data) => {
-            this.data = data[0];
-            if (this.data.excluida) {
-                this.data.excluida = false;
-            } else {
-                this.data.excluida = true;
-            }
-            this.dataService.addDocument(this.data);
-        }).catch((ex) => {
-            console.error('Error fetching  excluirOrdem', ex);
-        });
-    }
-
-    alterarDelivery(id) {
-        this.dataService.getDocumentByIdTQ(id).then((data) => {
-            this.data = data[0];
-            if (this.data.delivery) {
-                this.data.delivery = false;
-            } else {
-                this.data.delivery = true;
-            }
-            this.dataService.addDocument(this.data);
-        }).catch((ex) => {
-            console.error('Error fetching  alterarDelivery', ex);
-        });
+    alterarStatusDoItem(ordemid, itemid) {
+            this.dataService.alterarStatusDoItemTQ(ordemid, itemid);
     }
 
     existeDeterminadoItemNaLista(item, itensSelecionados) {
@@ -155,50 +96,43 @@ export class OrdensService {
         }
     }
 
-    alterarPrioridade(id) {
-         this.getDocumentById(id).then((data) => {
+    incluirQuantidadeDePessoas($event, ordemid) {
+        this.getDocumentById(ordemid).then((data) => {
             this.data = data[0];
-            if (this.data.prioridade) {
-                this.data.prioridade = false;
-            } else if (!this.data.prioridade){
-                this.data.prioridade = true;
-            }
+            this.data.quantidadePessoas = $event.novoValor;
             //this.dataService.addDocument(this.data);
-            this.dataService.alterarPrioridade(this.data);
-        }).catch((ex) => {
-            console.error('Error fetching  alterarPrioridade', ex);
-        });  
-        
-    }
-
-    incluirQuantidadeDePessoas($event,ordemid){
-          this.getDocumentById(ordemid).then((data) => {
-            this.data = data[0]; 
-                this.data.quantidadePessoas = $event.novoValor; 
-            //this.dataService.addDocument(this.data);
-            this.dataService.addDocument(this.data); 
-        }).catch((ex) => {
-            console.error('Error fetching  alterarPrioridade', ex);
-        });        
-    }
-
-  salvarObservacao(ordemid,valor){
-          this.getDocumentById(ordemid).then((data) => {
-            this.data = data[0]; 
-                this.data.observacao = valor;  
             this.dataService.addDocument(this.data);
         }).catch((ex) => {
             console.error('Error fetching  alterarPrioridade', ex);
-        });        
+        });
     }
 
+    salvarObservacao(id, obs) {
+        this.dataService.alterarObservacaoIdTQ(id, obs);
+    }
+
+    alterarDelivery(id) {
+        this.dataService.alterarDeliveryIdTQ(id);
+    }
+
+    alterarPrioridade(id) {
+        this.dataService.alterarPrioridadeIdTQ(id);
+    }
+
+    alterarStatus(id, status) {
+        this.dataService.alterarStatusIdTQ(id, status);  
+    }
+
+    excluirOrdem(id) {
+        this.dataService.excluirOrdemTQ(id);
+    }
 
     getDiaAtual() {
         let date = new Date();
-        return date.toISOString().substring(0,10);
+        return date.toISOString().substring(0, 10);
     }
 
-    getHoraAtual() { 
+    getHoraAtual() {
         return Date.now();
     }
 

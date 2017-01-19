@@ -16,7 +16,7 @@
             }" (click)="alterarDelivery(ordem._id);">
         <span class="glyphicon glyphicon-road"></span>
       </button>
-          <button type="button" class="btn btn-outline-success" (click)="onSelect(ordem);"><span  
+          <button type="button" class="btn btn-outline-success" (click)="adicionarItens(ordem);"><span  
               class="glyphicon" [ngClass]="{
               'glyphicon-plus': ordem.itens.length == '0',
               'glyphicon-pencil': ordem.itens.length >= '1' 
@@ -38,7 +38,8 @@
           </h4>
           <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" (click)="alterarStatus(ordem._id,'ABERTA');"></span>
             <span class="glyphicon glyphicon-dashboard" aria-hidden="true" (click)="alterarStatus(ordem._id,'EM PROGRESSO');"></span>
-            <!-- <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'ENTREGUE');"></span>            </p>
+            <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'ENTREGUE');"></span>
+            <!--   </p>
            <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#" [attr.data-target]="'#' + ordem.nome | removeSpaces"
         aria-expanded="false" aria-controls="collapseExample">
     <span class="glyphicon glyphicon-bell"></span>
@@ -47,11 +48,11 @@
         <!--<div class="collapse" id="" [attr.id]="'' + ordem.nome | removeSpaces">-->
         <ul class="list-group list-group-flush" *ngFor="let item of ordem.itens">
           <!--<app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>-->
-          <li class="list-group-item "   >
-             {{item.nome}} - {{item.quantidadeSolicitada}}
+          <li class="list-group-item ">
+            {{item.nome}} - {{item.quantidadeSolicitada}}
             <progressbar [max]="item.quantidadeSolicitada" [value]="item.quantidadeFeita" (click)="alterarStatusDoItem(ordem._id,item._id)">
               <span style="color:white; white-space:nowrap;">{{item.quantidadeFeita}} / {{item.quantidadeSolicitada}}</span>
-</progressbar> 
+</progressbar>
 </li>
 </ul>
 <!--<div class="card-block">
@@ -60,17 +61,17 @@
 <!-- </div>-->
 <div class="form-group">
   <textarea class="form-control" id="#" [attr.id]="'#' + ordem.nome | removeSpaces" rows="2" placeholder="Observação" type="text"
-    [(ngModel)]="ordem.observacao" (keyup.enter)="salvarObservacao(ordem._id,ordem.observacao)" (blur)="salvarObservacao(ordem._id,ordem.observacao)"></textarea>
+    [(ngModel)]="ordem.observacao" (keyup.enter)="alterarObservacao(ordem._id,ordem.observacao)" (blur)="alterarObservacao(ordem._id,ordem.observacao)"></textarea>
 </div>
 <div class="card-footer text-muted">
   <p>{{ ordem.data | date }} - {{ ordem.hora | date:'mediumTime' }}
     <app-seletor-quantidade [valor]="ordem.quantidadePessoas == null ? 1 :  ordem.quantidadePessoas" (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
   </p>
-  <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
-    Itens: {{getQuantidade(ordem.itens)}} </p>
-  <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
+  <p>
+    Itens: {{ getQuantidade(ordem.itens) }} </p>
+  <p>
     <button (click)="incluirMovimentacao(getValorTotal(ordem.itens));" type="button" class="btn btn-success"> 
-                {{getValorTotal(ordem.itens) | currency:'BRL':true}}
+                {{ getValorTotal(ordem.itens) | currency:'BRL':true}}
                </button></p>
 </div>
 </div>
@@ -79,7 +80,7 @@
 
 
 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-  <h4 class="card-title">Ordens em Progresso</h4>
+  <h4 class="card-title">Ordens em progresso</h4>
   <div *ngFor="let ordem of ordens">
     <div class="card" *ngIf="ordem.status == 'EM PROGRESSO'">
       <div class="card-header">
@@ -95,85 +96,7 @@
             }" (click)="alterarDelivery(ordem._id);">
         <span class="glyphicon glyphicon-road"></span>
       </button>
-        <button type="button" class="btn btn-outline-success" (click)="onSelect(ordem);"><span  
-              class="glyphicon" [ngClass]="{
-              'glyphicon-plus': ordem.itens.length == '0',
-              'glyphicon-pencil': ordem.itens.length >= '1' 
-            }"
-              > 
-              </span></button>
-        <button (click)="excluirOrdem(ordem._id);" type="button" class="btn btn-outline-danger"><span 
-              class="glyphicon glyphicon-trash"> 
-              </span></button>
-
-      </div>
-      <div class="card" [ngClass]="{
-              'card-inverse card-info': ordem.status == 'ABERTA',
-              'card-inverse card-success ': ordem.status == 'EM PROGRESSO',
-              'card-inverse card-warning  ':  ordem.status == 'ENTREGUE'
-            }">
-        <h4 class="card-title ">
-          {{ordem.nome}}
-        </h4>
-        <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" (click)="alterarStatus(ordem._id,'ABERTA');"></span>
-          <!--<span class="glyphicon glyphicon-dashboard" aria-hidden="true" (click)="alterarStatus(ordem._id,'EM PROGRESSO');"></span>-->
-          <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'ENTREGUE');"></span>          </p>
-        <!-- <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#" [attr.data-target]="'#' + ordem.nome | removeSpaces"
-        aria-expanded="false" aria-controls="collapseExample">
-    <span class="glyphicon glyphicon-bell"></span>
-  </button>-->
-      </div>
-      <!--<div class="collapse" id="" [attr.id]="'' + ordem.nome | removeSpaces">-->
-      <ul class="list-group list-group-flush" *ngFor="let item of ordem.itens">
-        <!--<app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>-->
-        <li class="list-group-item" (click)="alterarStatusDoItem(ordem._id,item._id)">
-           {{item.nome}}
-          <progressbar [max]="item.quantidadeSolicitada" [value]="item.quantidadeFeita">
-            <span style="color:white; white-space:nowrap;">{{item.quantidadeFeita}} / {{item.quantidadeSolicitada}}</span>
-</progressbar>
-</li>
-</ul>
-<!--<div class="card-block">
-      
-    </div>-->
-<!-- </div>-->
-<div class="form-group">
-  <textarea class="form-control" id="#" [attr.id]="'#' + ordem.nome | removeSpaces" rows="2" placeholder="Observação" type="text"
-    [(ngModel)]="ordem.observacao" (keyup.enter)="salvarObservacao(ordem._id,ordem.observacao)" (blur)="salvarObservacao(ordem._id,ordem.observacao)"></textarea>
-</div>
-<div class="card-footer text-muted">
-  <p>{{ ordem.data | date }} - {{ ordem.hora | date:'mediumTime' }}
-    <app-seletor-quantidade  [valor]="ordem.quantidadePessoas == null ? 1 :  ordem.quantidadePessoas" (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
-  </p>
-  <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
-    Itens: {{getQuantidade(ordem.itens)}} </p>
-  <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
-    <button (click)="incluirMovimentacao(getValorTotal(ordem.itens));" type="button" class="btn btn-success"> 
-                {{getValorTotal(ordem.itens) | currency:'BRL':true}}
-               </button></p>
-</div>
-</div>
-</div>
-</div>
-
-<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-  <h4 class="card-title">Ordens Entregues</h4>
-  <div *ngFor="let ordem of ordens">
-    <div class="card" *ngIf="ordem.status == 'ENTREGUE'">
-      <div class="card-header">
-        <button type="button" class="btn" [ngClass]="{
-              'btn-danger': ordem.prioridade == true,
-              'btn-outline-secondary': ordem.prioridade == false 
-            }" (click)="alterarPrioridade(ordem._id);">
-        <span class="glyphicon glyphicon-exclamation-sign"></span>
-      </button>
-        <button type="button" class="btn" [ngClass]="{
-              'btn-danger': ordem.delivery == true,
-              'btn-outline-secondary': ordem.delivery == false 
-            }" (click)="alterarDelivery(ordem._id);">
-        <span class="glyphicon glyphicon-road"></span>
-      </button>
-        <button type="button" class="btn btn-outline-success" (click)="onSelect(ordem);"><span  
+        <button type="button" class="btn btn-outline-success" (click)="adicionarItens(ordem);"><span  
               class="glyphicon" [ngClass]="{
               'glyphicon-plus': ordem.itens.length == '0',
               'glyphicon-pencil': ordem.itens.length >= '1' 
@@ -195,8 +118,9 @@
         </h4>
         <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" (click)="alterarStatus(ordem._id,'ABERTA');"></span>
           <span class="glyphicon glyphicon-dashboard" aria-hidden="true" (click)="alterarStatus(ordem._id,'EM PROGRESSO');"></span>
-          <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'ENTREGUE');"></span>          </p>
-        <!-- <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#" [attr.data-target]="'#' + ordem.nome | removeSpaces"
+          <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'ENTREGUE');"></span>
+          <!--   </p>
+           <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#" [attr.data-target]="'#' + ordem.nome | removeSpaces"
         aria-expanded="false" aria-controls="collapseExample">
     <span class="glyphicon glyphicon-bell"></span>
   </button>-->
@@ -204,9 +128,9 @@
       <!--<div class="collapse" id="" [attr.id]="'' + ordem.nome | removeSpaces">-->
       <ul class="list-group list-group-flush" *ngFor="let item of ordem.itens">
         <!--<app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>-->
-        <li class="list-group-item" (click)="alterarStatusDoItem(ordem._id,item._id)" >
-           {{item.nome}}
-          <progressbar [max]="item.quantidadeSolicitada" [value]="item.quantidadeFeita">
+        <li class="list-group-item ">
+          {{item.nome}} - {{item.quantidadeSolicitada}}
+          <progressbar [max]="item.quantidadeSolicitada" [value]="item.quantidadeFeita" (click)="alterarStatusDoItem(ordem._id,item._id)">
             <span style="color:white; white-space:nowrap;">{{item.quantidadeFeita}} / {{item.quantidadeSolicitada}}</span>
 </progressbar>
 </li>
@@ -217,20 +141,124 @@
 <!-- </div>-->
 <div class="form-group">
   <textarea class="form-control" id="#" [attr.id]="'#' + ordem.nome | removeSpaces" rows="2" placeholder="Observação" type="text"
-    [(ngModel)]="ordem.observacao" (keyup.enter)="salvarObservacao(ordem._id,ordem.observacao)" (blur)="salvarObservacao(ordem._id,ordem.observacao)"></textarea>
+    [(ngModel)]="ordem.observacao" (keyup.enter)="alterarObservacao(ordem._id,ordem.observacao)" (blur)="alterarObservacao(ordem._id,ordem.observacao)"></textarea>
 </div>
 <div class="card-footer text-muted">
   <p>{{ ordem.data | date }} - {{ ordem.hora | date:'mediumTime' }}
-    <app-seletor-quantidade  [valor]="ordem.quantidadePessoas == null ? 1 :  ordem.quantidadePessoas" (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
+    <app-seletor-quantidade [valor]="ordem.quantidadePessoas == null ? 1 :  ordem.quantidadePessoas" (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
   </p>
-  <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
-    Itens: {{getQuantidade(ordem.itens)}} </p>
-  <p *ngIf="getQuantidadeMaiorQueZero(ordem.itens)">
+  <p>
+    Itens: {{ getQuantidade(ordem.itens) }} </p>
+  <p>
     <button (click)="incluirMovimentacao(getValorTotal(ordem.itens));" type="button" class="btn btn-success"> 
-                {{getValorTotal(ordem.itens) | currency:'BRL':true}}
+                {{ getValorTotal(ordem.itens) | currency:'BRL':true}}
+               </button></p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+  <h4 class="card-title">Ordens entregues</h4>
+  <div *ngFor="let ordem of ordens">
+    <div class="card" *ngIf="ordem.status == 'ENTREGUE'">
+      <div class="card-header">
+        <button type="button" class="btn" [ngClass]="{
+              'btn-danger': ordem.prioridade == true,
+              'btn-outline-secondary': ordem.prioridade == false 
+            }" (click)="alterarPrioridade(ordem._id);">
+        <span class="glyphicon glyphicon-exclamation-sign"></span>
+      </button>
+        <button type="button" class="btn" [ngClass]="{
+              'btn-danger': ordem.delivery == true,
+              'btn-outline-secondary': ordem.delivery == false 
+            }" (click)="alterarDelivery(ordem._id);">
+        <span class="glyphicon glyphicon-road"></span>
+      </button>
+        <button type="button" class="btn btn-outline-success" (click)="adicionarItens(ordem);"><span  
+              class="glyphicon" [ngClass]="{
+              'glyphicon-plus': ordem.itens.length == '0',
+              'glyphicon-pencil': ordem.itens.length >= '1' 
+            }"
+              > 
+              </span></button>
+        <button (click)="excluirOrdem(ordem._id);" type="button" class="btn btn-outline-danger"><span 
+              class="glyphicon glyphicon-trash"> 
+              </span></button>
+
+      </div>
+      <div class="card" [ngClass]="{
+              'card-inverse card-info': ordem.status == 'ABERTA',
+              'card-inverse card-success ': ordem.status == 'EM PROGRESSO',
+              'card-inverse card-warning  ':  ordem.status == 'ENTREGUE'
+            }">
+        <h4 class="card-title ">
+          {{ordem.nome}}
+        </h4>
+        <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" (click)="alterarStatus(ordem._id,'ABERTA');"></span>
+          <span class="glyphicon glyphicon-dashboard" aria-hidden="true" (click)="alterarStatus(ordem._id,'EM PROGRESSO');"></span>
+          <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'ENTREGUE');"></span>
+          <!--   </p>
+           <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#" [attr.data-target]="'#' + ordem.nome | removeSpaces"
+        aria-expanded="false" aria-controls="collapseExample">
+    <span class="glyphicon glyphicon-bell"></span>
+  </button>-->
+      </div>
+      <!--<div class="collapse" id="" [attr.id]="'' + ordem.nome | removeSpaces">-->
+      <ul class="list-group list-group-flush" *ngFor="let item of ordem.itens">
+        <!--<app-ordem-item [n]=item *ngFor="let item of ordem.itens"> </app-ordem-item>-->
+        <li class="list-group-item ">
+          {{item.nome}} - {{item.quantidadeSolicitada}}
+          <progressbar [max]="item.quantidadeSolicitada" [value]="item.quantidadeFeita" (click)="alterarStatusDoItem(ordem._id,item._id)">
+            <span style="color:white; white-space:nowrap;">{{item.quantidadeFeita}} / {{item.quantidadeSolicitada}}</span>
+</progressbar>
+</li>
+</ul>
+<!--<div class="card-block">
+      
+    </div>-->
+<!-- </div>-->
+<div class="form-group">
+  <textarea class="form-control" id="#" [attr.id]="'#' + ordem.nome | removeSpaces" rows="2" placeholder="Observação" type="text"
+    [(ngModel)]="ordem.observacao" (keyup.enter)="alterarObservacao(ordem._id,ordem.observacao)" (blur)="alterarObservacao(ordem._id,ordem.observacao)"></textarea>
+</div>
+<div class="card-footer text-muted">
+  <p>{{ ordem.data | date }} - {{ ordem.hora | date:'mediumTime' }}
+    <app-seletor-quantidade [valor]="ordem.quantidadePessoas == null ? 1 :  ordem.quantidadePessoas" (mudouValor)="incluirQuantidadeDePessoas($event,ordem._id) "></app-seletor-quantidade>
+  </p>
+  <p>
+    Itens: {{ getQuantidade(ordem.itens) }} </p>
+  <p>
+    <button (click)="incluirMovimentacao(getValorTotal(ordem.itens));" type="button" class="btn btn-success"> 
+                {{ getValorTotal(ordem.itens) | currency:'BRL':true}}
                </button></p>
 </div>
 </div>
 </div>
 </div>
 </div>
+
+
+<!--<div class="row">
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <h4 class="card-title">Ordens em Aberto</h4>
+    <div *ngFor="let ordem of ordensAbertas">
+      <app-card [ordem]=ordem  ></app-card>
+    </div>
+  </div>
+
+
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+     <h4 class="card-title">Ordens em progresso</h4>
+    <div *ngFor="let ordem of ordensEmProgresso">
+      <app-card [ordem]=ordem  ></app-card>
+    </div>
+  </div>
+
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+     <h4 class="card-title">Ordens entregues</h4>
+    <div *ngFor="let ordem of ordensEntregues">
+      <app-card [ordem]=ordem  ></app-card>
+    </div>
+  </div>
+</div>-->

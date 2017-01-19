@@ -20,6 +20,7 @@ import { OrdemComponent } from './ordem/ordem.component';
 import { OrdemItemModalComponent } from './ordem-item-modal/ordem-item-modal.component';
 import { OrdemItemSelecaoComponent } from './ordem-item-selecao/ordem-item-selecao.component';
 import { SeletorQuantidadeComponent } from './com/seletor-quantidade/seletor-quantidade.component';
+import { CardComponent } from './com/card/card.component';
 import { RemoveSpacesPipe } from './pipes/remove-spaces.pipe';
 import { CaixaComponent } from './caixa/caixa.component';
 import { ProgressbarDemoComponent } from './com-impl/progressbar/progressbar-demo.component';
@@ -39,6 +40,7 @@ import { RouterModule }   from '@angular/router';
     OrdemItemModalComponent,
     OrdemItemSelecaoComponent,
     SeletorQuantidadeComponent,
+    CardComponent,
     RemoveSpacesPipe,
     CaixaComponent,
     ProgressbarDemoComponent,

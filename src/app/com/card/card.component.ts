@@ -1,57 +1,32 @@
-import {
-  Component, OnInit, Output, Input,
-  OnChanges,
-  DoCheck,
-  AfterContentInit,
-  AfterContentChecked,
-  AfterViewInit,
-  AfterViewChecked,
-  OnDestroy,
-  ViewChild
-} from '@angular/core';
+import { OrdensService } from './../../ordem/ordens.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Ordem } from './ordem';
-import { OrdensService } from './ordens.service';
-import { DataServiceOrdem } from '../services/data.service.ordem';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
+
+import { Ordem } from './../../ordem/ordem';
+import { DataServiceOrdem } from './../../services/data.service.ordem';
 
 @Component({
-  selector: 'app-ordem',
-  templateUrl: './ordem.component.html',
-  styleUrls: ['./ordem.component.css']
+  selector: 'app-card',
+  templateUrl: './card.component.html'
 })
-export class OrdemComponent implements OnInit {
+export class CardComponent {
 
-  ordens: any = [];
 
+  @Input() ordem: any; 
 
   constructor(
     private ordensService: OrdensService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private dataService: DataServiceOrdem) {
+    private router: Router) {
   }
 
-  ngOnInit() {
-  }
-
-  ngAfterViewInit() {
-    this.getOrdensDoDiaAtualPQ();
-  }
-
-
-  ngOnDestroy() {
-  }
-
-  getOrdensDoDiaAtualPQ() {
-    this.ordensService.getOrdensDoDiaAtualPQ().then((data) => {
-      this.ordens = data;
-    }).catch((ex) => {
-      console.error('Error fetching getOrdensDoDiaAtualPQ', ex);
-    });
-  }
 
   adicionarItens(ordem) {
+    //this.ordensService.onSelect(ordem);
     this.router.navigate(['/ordem-item-modal/' + ordem._id]);
+  }
+
+  ngOnDestroy() {
+    this.ordem; 
   }
 
   alterarStatusDoItem(ordemid, itemid) {
@@ -98,7 +73,7 @@ export class OrdemComponent implements OnInit {
     this.ordensService.salvarObservacao(ordemid, valor);
   }
 
-  getQuantidade(itens) {
+    getQuantidade(itens){
     var a = 0;
     for (var x in itens) {
       a = a + Number(itens[x].quantidadeSolicitada);
