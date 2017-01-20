@@ -10,8 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { ItensComponent } from './itens/itens.component';
 import { routing } from './app.routing';
 import { ItensService } from './itens/itens.service';
-import { CaixaService } from './caixa/caixa.service';
-import { OrdensService } from './ordem/ordens.service';
+import { CaixaService } from './caixa/caixa.service'; 
 import { DataServiceItem } from './services/data.service.item';
 import { DataServiceOrdem } from './services/data.service.ordem';
 import { DataServiceCaixa } from './services/data.service.caixa';
@@ -68,8 +67,7 @@ import { RouterModule }   from '@angular/router';
     ])
   ],
   providers: [
-    ItensService,
-    OrdensService,
+    ItensService, 
     CaixaService,
     DataServiceItem,
     DataServiceOrdem,

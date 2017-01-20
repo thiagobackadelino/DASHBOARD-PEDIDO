@@ -2,9 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { Ordem } from '../ordem/ordem';
-import { OrdensService } from '../ordem/ordens.service';
+import { Ordem } from '../ordem/ordem'; 
 import { ItensService } from '../itens/itens.service';
+import { DataServiceOrdem } from '../services/data.service.ordem';
 
 @Component({
   selector: 'app-ordem-item-modal',
@@ -20,7 +20,7 @@ export class OrdemItemModalComponent implements OnInit {
   itensOrdem: any = [];
 
   constructor(
-    private ordensService: OrdensService,
+    private dataService: DataServiceOrdem,
     private itensService: ItensService,
     private route: ActivatedRoute,
     private router: Router) {
@@ -34,7 +34,7 @@ export class OrdemItemModalComponent implements OnInit {
       (params: any) => {
         this.id = params['id']; 
         if (this.id != null) {
-          this.ordensService.getDocumentById(this.id).then((data) => {
+          this.dataService.getDocumentById(this.id).then((data) => {
             this.ordem = data[0];
             this.getItens(this.ordem);
           }).catch((ex) => {
@@ -58,7 +58,7 @@ export class OrdemItemModalComponent implements OnInit {
 
           } else if (ordem.itens[y].nome == data[x].nome) {
             //console.log(" xb ---"+ordem.itens[y].nome +"----- yb "+data[x].nome);
-            data[x].quantidade = ordem.itens[y].quantidadeSolicitada;
+            data[x].quantidadeSolicitada = ordem.itens[y].quantidadeSolicitada;
           }
         }
       }

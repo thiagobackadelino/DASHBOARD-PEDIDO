@@ -10,8 +10,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Ordem } from './ordem';
-import { OrdensService } from './ordens.service';
+import { Ordem } from './ordem'; 
 import { DataServiceOrdem } from '../services/data.service.ordem';
 
 @Component({
@@ -24,11 +23,10 @@ export class OrdemComponent implements OnInit {
   ordens: any = []; 
 
 
-  constructor(
-    private ordensService: OrdensService,
+  constructor( 
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataServiceOrdem) { 
+    private dataService: DataServiceOrdem ) { 
   }
 
    ngOnInit() { 
@@ -40,11 +38,11 @@ export class OrdemComponent implements OnInit {
   
   ngOnDestroy() {  
     //console.log("ngOnDestroy");
-   // this.ordensService.clearData();
+   // this.dataService.clearData();
   }
 
   getOrdensDoDiaAtualPQ() { 
-    this.ordensService.getOrdensDoDiaAtualPQ().then((data) => {
+    this.dataService.getOrdensDoDiaAtualPQ().then((data) => {
       this.ordens = data; 
     }).catch((ex) => {
       console.error('Error fetching getOrdensDoDiaAtualPQ', ex);
@@ -52,12 +50,12 @@ export class OrdemComponent implements OnInit {
   }
 
   adicionarItens(ordem) {
-    //this.ordensService.onSelect(ordem);
+    //this.dataService.onSelect(ordem);
     this.router.navigate(['/ordem-item-modal/' + ordem._id]);
   }
  
   alterarStatusDoItem(ordemid, itemid) {
-    this.ordensService.alterarStatusDoItem(ordemid, itemid);
+    this.dataService.alterarStatusDoItemTQ(ordemid, itemid);
   }
 
   getQuantidadeMaiorQueZero(itens) {
@@ -72,11 +70,11 @@ export class OrdemComponent implements OnInit {
   }
 
   excluirOrdem(id) {
-    this.ordensService.excluirOrdem(id);
+    this.dataService.excluirOrdemTQ(id);
   }
 
   incluirQuantidadeDePessoas($event, ordemid) {
-    this.ordensService.incluirQuantidadeDePessoas($event, ordemid);
+    this.dataService.incluirQuantidadeDePessoasTQ($event.novoValor, ordemid);
   }
 
   incluirMovimentacao(valor) {
@@ -84,19 +82,19 @@ export class OrdemComponent implements OnInit {
   }
 
   alterarStatus(id, status) {
-    this.ordensService.alterarStatus(id, status);
+    this.dataService.alterarStatusIdTQ(id, status);
   }
 
   alterarDelivery(id) {
-    this.ordensService.alterarDelivery(id);
+    this.dataService.alterarDeliveryIdTQ(id);
   }
 
   alterarPrioridade(id) {
-    this.ordensService.alterarPrioridade(id);
+    this.dataService.alterarPrioridadeIdTQ(id);
   }
 
   alterarObservacao(ordemid, valor) {
-    this.ordensService.salvarObservacao(ordemid, valor);
+    this.dataService.alterarObservacaoIdTQ(ordemid, valor);
   }
 
   getQuantidade(itens){

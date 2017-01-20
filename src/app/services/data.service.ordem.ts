@@ -146,8 +146,7 @@ export class DataServiceOrdem {
     });*/
 
     for (var x in this.data) {
-      if (this.data[x]._id === change.id) {
-        console.log("oiasó");
+      if (this.data[x]._id === change.id) { 
         changedDoc = this.data[x];
         changedIndex = x;
       }
@@ -156,6 +155,7 @@ export class DataServiceOrdem {
 
     //A document was deleted
     if (change.deleted) {
+      console.log("deleted");
       this.data.splice(changedIndex, 1);
     }
     else {
@@ -351,6 +351,20 @@ export class DataServiceOrdem {
       });
   }
 
+  incluirQuantidadeDePessoasTQ(valor,id) {
+    this.db.query(function (doc, emit) {
+      emit(doc._id);
+    },
+      { include_docs: true, key: id, limit: 1 }).then((result) => {
+        let docs = result.rows.map((row) => {
+           row.doc.quantidadePessoas = valor;
+          this.addDocument(row.doc);
+        });
+      }).catch(function (err) {
+        console.log("incluirQuantidadeDePessoasTQ" + err);
+      });
+  }
+
   alterarStatusDoItemTQ(iordemid, itemid) {
     this.db.query(function (doc, emit) {
       emit(doc._id);
@@ -381,6 +395,8 @@ export class DataServiceOrdem {
   clearData() {
     this.data = [];
   }
+
+  
 
 }
 

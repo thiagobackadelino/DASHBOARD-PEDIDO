@@ -1,8 +1,8 @@
+import { DataServiceOrdem } from './services/data.service.ordem';
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Ordem } from './ordem/ordem';
-import { OrdensService } from './ordem/ordens.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
 
 
 
-  constructor(private ordensService: OrdensService,
+  constructor(private dataService: DataServiceOrdem,
     private router: Router) {
     var events = require('events');
     events.defaultMaxListeners = 0;
@@ -28,7 +28,11 @@ export class AppComponent implements OnInit {
 
   addOrdem(event) {
     event.preventDefault();
-    this.ordensService.addOrdem(this.ordem);
+    this.ordem._id = "" + this.getDiaAtual() + this.getHoraAtual() + (Math.random() * 10);
+    this.ordem.data = this.getDiaAtual();
+    this.ordem.hora = this.getHoraAtual();
+    this.ordem.status = "ABERTA";
+    this.dataService.addDocument(this.ordem);
     this.novaOrdem();
     this.router.navigate(['/home']);
   }
@@ -36,6 +40,15 @@ export class AppComponent implements OnInit {
   novaOrdem() {
     this.ordem = new Ordem();
   }
+
+      getDiaAtual() {
+        let date = new Date();
+        return date.toISOString().substring(0, 10);
+    }
+
+    getHoraAtual() {
+        return Date.now();
+}
 
 }
 

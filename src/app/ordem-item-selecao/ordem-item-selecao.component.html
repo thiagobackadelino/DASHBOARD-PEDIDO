@@ -1,7 +1,7 @@
 <li class="list-group-item" *ngFor="let item of itens">
   <h5>
      <span class="tag tag-success float-xs-right">Valor: {{ item.valor | currency:'BRL':true }}</span>
-     <app-seletor-quantidade [valor]="item.quantidade != null ? item.quantidade :  '0'"  
+     <app-seletor-quantidade [valor]="item.quantidadeSolicitada != null ? item.quantidadeSolicitada :  '0'"  
 (mudouValor)="montarPedido($event,item) "></app-seletor-quantidade>
      </h5>
   <a class="collection-item"> 
