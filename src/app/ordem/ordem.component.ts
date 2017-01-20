@@ -21,39 +21,41 @@ import { DataServiceOrdem } from '../services/data.service.ordem';
 })
 export class OrdemComponent implements OnInit {
 
-  ordens: any = [];
+  ordens: any = []; 
 
 
   constructor(
     private ordensService: OrdensService,
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataServiceOrdem) {
+    private dataService: DataServiceOrdem) { 
   }
 
-  ngOnInit() {
+   ngOnInit() { 
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit() { 
     this.getOrdensDoDiaAtualPQ();
   }
-
-
-  ngOnDestroy() {
+  
+  ngOnDestroy() {  
+    //console.log("ngOnDestroy");
+   // this.ordensService.clearData();
   }
 
-  getOrdensDoDiaAtualPQ() {
+  getOrdensDoDiaAtualPQ() { 
     this.ordensService.getOrdensDoDiaAtualPQ().then((data) => {
-      this.ordens = data;
+      this.ordens = data; 
     }).catch((ex) => {
       console.error('Error fetching getOrdensDoDiaAtualPQ', ex);
     });
   }
 
   adicionarItens(ordem) {
+    //this.ordensService.onSelect(ordem);
     this.router.navigate(['/ordem-item-modal/' + ordem._id]);
   }
-
+ 
   alterarStatusDoItem(ordemid, itemid) {
     this.ordensService.alterarStatusDoItem(ordemid, itemid);
   }
@@ -77,7 +79,6 @@ export class OrdemComponent implements OnInit {
     this.ordensService.incluirQuantidadeDePessoas($event, ordemid);
   }
 
-
   incluirMovimentacao(valor) {
     this.router.navigate(['/caixa-incluir-movimentacao/' + valor]);
   }
@@ -98,7 +99,7 @@ export class OrdemComponent implements OnInit {
     this.ordensService.salvarObservacao(ordemid, valor);
   }
 
-  getQuantidade(itens) {
+  getQuantidade(itens){
     var a = 0;
     for (var x in itens) {
       a = a + Number(itens[x].quantidadeSolicitada);

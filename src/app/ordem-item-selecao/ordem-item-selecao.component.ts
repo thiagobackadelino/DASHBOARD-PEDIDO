@@ -76,7 +76,7 @@ export class OrdemItemSelecaoComponent implements OnInit {
   }
 
   editarItem(id, itensSelecionados) {
-    console.table(itensSelecionados);
+   // console.table(itensSelecionados);
     this.ordensService.editarItem(id, itensSelecionados);
   }
 

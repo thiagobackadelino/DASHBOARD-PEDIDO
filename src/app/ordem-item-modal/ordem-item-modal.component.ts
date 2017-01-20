@@ -69,10 +69,10 @@ export class OrdemItemModalComponent implements OnInit {
     });
   }
 
-
-
+ 
   ngOnDestroy() {
     this.inscricao.unsubscribe();
+    console.log("ngOnDestroy item modal");  
   }
 
 }

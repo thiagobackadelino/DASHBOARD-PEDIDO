@@ -28,7 +28,7 @@ export class DataServiceOrdem {
     PouchDB.plugin(require('pouchdb-upsert'));
 
     this.db = new PouchDB('dashboard-pedido-ordem');
-
+    //console.log(this.db.adapter);
 
     // cloudant login details
     this.username = 'sonic';
@@ -36,7 +36,7 @@ export class DataServiceOrdem {
 
     // cloudant, couchdb, couchbase remote url
     // eg - https://<your_host>.cloudant.com/todohttp://sonic:sonic@127.0.0.1:5984/
-    this.remote = 'http://sonic:sonic@192.168.0.100:5984/dashboard-pedido-ordem';
+    this.remote = 'http://sonic:sonic@127.0.0.1:5984/dashboard-pedido-ordem';
 
     // cloudant, couchdb, couchbase remote url
     // applicable when username/password set. 
@@ -52,12 +52,10 @@ export class DataServiceOrdem {
 
     this.db.sync(this.remote, options);
 
-    this.db.changes({ live: true, since: 'now', include_docs: true })
-      .on('change', (change) => {
-        this.zone.run(() => {
-          this.handleChange(change);
-        });
-      });
+        this.db.changes({ live: true, since: 'now', include_docs: true, continuous: true })
+          .on('change', (change) => {
+            this.handleChange(change);
+          });
   }
 
   initCall() {
@@ -89,9 +87,6 @@ export class DataServiceOrdem {
 
           resolve(this.data);
 
-          this.db.changes({ live: true, since: 'now', include_docs: true }).on('change', (change) => {
-            this.handleChange(change);
-          });
 
         });
     });
@@ -137,37 +132,27 @@ export class DataServiceOrdem {
     });
   }
 
-  alterarPrioridade(result) {
-    //console.log(result);
-    this.db.upsert(result._id, function (doc) {
-
-      return result;
-    }).then(function (changes) {
-      // success, res is {rev: '1-xxx', updated: true}
-      // console.log("sucesso"); 
-    }).catch(function (err) {
-      // error
-      console.log("erro alterarPrioridade");
-    });
-  }
-
   handleChange(change) {
-
-    if (change.updated) {
-      this.data.push(change.doc);
-    }
-
+    //console.log(change);
     let changedDoc = null;
     let changedIndex = null;
-
-    this.data.forEach((doc, index) => {
-
+    //console.table(this.data);
+    /*this.data.forEach((doc, index) => {
+      console.log("oiasó");
       if (doc._id === change.id) {
         changedDoc = doc;
         changedIndex = index;
       }
+    });*/
 
-    });
+    for (var x in this.data) {
+      if (this.data[x]._id === change.id) {
+        console.log("oiasó");
+        changedDoc = this.data[x];
+        changedIndex = x;
+      }
+    }
+
 
     //A document was deleted
     if (change.deleted) {
@@ -179,13 +164,13 @@ export class DataServiceOrdem {
       if (changedDoc) {
         this.data[changedIndex] = change.doc;
       }
+
       //A document was added
       else {
         this.data.push(change.doc);
       }
 
     }
-
 
   }
 
@@ -205,7 +190,7 @@ export class DataServiceOrdem {
   }
 
   //Persistent queries
-  getOrdensPorStatusPQ() {
+  getOrdensDoDiaAtualPQ() {
     return new Promise(resolve => {
       var emit = "function (doc) { emit(doc.name); }" // <------ OK 
       var ddoc = {
@@ -219,22 +204,32 @@ export class DataServiceOrdem {
       // save it
       this.db.put(ddoc).then(function () {
         // success!
+        //console.log(ddoc);
       }).catch(function (err) {
+        // console.log(err);
         // some error (maybe a 409, because it already exists?)
       });
 
-      this.db.query('my_index/by_name', {
-      include_docs: true
-      }).then(function (res) {
-        // index was built!
-        console.log(res);
+      this.db.query('dia_atual/by_name', {
+        include_docs: true
+      }).then((result) => {
+        // index was built! 
+        this.data = [];
+        let docs = result.rows.map((row) => {
+          this.data.push(row.doc);
+        });
+        resolve(this.data);
+        //console.table(this.data);
+        //console.log(result);
+
       }).catch(function (err) {
+        console.log(err);
         // some error
       });
     });
   }
   //Temporary queries
-  getOrdensDoDiaAtualPQ() {
+  getOrdensDoDiaAtualTQ() {
     var date = this.getDiaAtual();
     return new Promise(resolve => {
       this.db.query(function (doc, emit) {
@@ -285,6 +280,7 @@ export class DataServiceOrdem {
             row.doc.delivery = true;
           }
           this.addDocument(row.doc);
+
         });
       }).catch(function (err) {
         console.log("alterarDeliveryIdTQ" + err);
@@ -380,6 +376,10 @@ export class DataServiceOrdem {
   getDiaAtual() {
     let date = new Date();
     return date.toISOString().substring(0, 10);
+  }
+
+  clearData() {
+    this.data = [];
   }
 
 }
