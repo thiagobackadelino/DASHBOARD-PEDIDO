@@ -52,10 +52,10 @@ export class DataServiceOrdem {
 
     this.db.sync(this.remote, options);
 
-        this.db.changes({ live: true, since: 'now', include_docs: true, continuous: true })
-          .on('change', (change) => {
-            this.handleChange(change);
-          });
+    this.db.changes({ live: true, since: 'now', include_docs: true, continuous: true })
+      .on('change', (change) => {
+        this.handleChange(change);
+      });
   }
 
   initCall() {
@@ -136,7 +136,7 @@ export class DataServiceOrdem {
     //console.log(change);
     let changedDoc = null;
     let changedIndex = null;
-    //console.table(this.data);
+
     /*this.data.forEach((doc, index) => {
       console.log("oiasó");
       if (doc._id === change.id) {
@@ -146,7 +146,7 @@ export class DataServiceOrdem {
     });*/
 
     for (var x in this.data) {
-      if (this.data[x]._id === change.id) { 
+      if (this.data[x]._id === change.id) {
         changedDoc = this.data[x];
         changedIndex = x;
       }
@@ -171,7 +171,7 @@ export class DataServiceOrdem {
       }
 
     }
-
+    //console.table(this.data);
   }
 
 
@@ -351,13 +351,13 @@ export class DataServiceOrdem {
       });
   }
 
-  incluirQuantidadeDePessoasTQ(valor,id) {
+  incluirQuantidadeDePessoasTQ(valor, id) {
     this.db.query(function (doc, emit) {
       emit(doc._id);
     },
       { include_docs: true, key: id, limit: 1 }).then((result) => {
         let docs = result.rows.map((row) => {
-           row.doc.quantidadePessoas = valor;
+          row.doc.quantidadePessoas = valor;
           this.addDocument(row.doc);
         });
       }).catch(function (err) {
@@ -396,7 +396,7 @@ export class DataServiceOrdem {
     this.data = [];
   }
 
-  
+
 
 }
 

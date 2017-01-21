@@ -10,7 +10,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Ordem } from './ordem'; 
+import { Ordem } from './ordem';
 import { DataServiceOrdem } from '../services/data.service.ordem';
 
 @Component({
@@ -20,30 +20,33 @@ import { DataServiceOrdem } from '../services/data.service.ordem';
 })
 export class OrdemComponent implements OnInit {
 
-  ordens: any = []; 
+  ordens: any = [];
 
 
-  constructor( 
+  constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataServiceOrdem ) { 
+    private dataService: DataServiceOrdem) {
   }
 
-   ngOnInit() { 
+  ngOnInit() {
+    // this.getOrdensDoDiaAtualPQ(); 
+    //this.change();
   }
 
-  ngAfterViewInit() { 
+  ngAfterViewInit() {
     this.getOrdensDoDiaAtualPQ();
   }
-  
-  ngOnDestroy() {  
+
+
+  ngOnDestroy() {
     //console.log("ngOnDestroy");
-   // this.dataService.clearData();
+    // this.dataService.clearData();
   }
 
-  getOrdensDoDiaAtualPQ() { 
+  getOrdensDoDiaAtualPQ() {
     this.dataService.getOrdensDoDiaAtualPQ().then((data) => {
-      this.ordens = data; 
+      this.ordens = data;
     }).catch((ex) => {
       console.error('Error fetching getOrdensDoDiaAtualPQ', ex);
     });
@@ -53,9 +56,10 @@ export class OrdemComponent implements OnInit {
     //this.dataService.onSelect(ordem);
     this.router.navigate(['/ordem-item-modal/' + ordem._id]);
   }
- 
+
   alterarStatusDoItem(ordemid, itemid) {
     this.dataService.alterarStatusDoItemTQ(ordemid, itemid);
+    this.change();
   }
 
   getQuantidadeMaiorQueZero(itens) {
@@ -71,10 +75,12 @@ export class OrdemComponent implements OnInit {
 
   excluirOrdem(id) {
     this.dataService.excluirOrdemTQ(id);
+    this.change();
   }
 
   incluirQuantidadeDePessoas($event, ordemid) {
     this.dataService.incluirQuantidadeDePessoasTQ($event.novoValor, ordemid);
+    this.change();
   }
 
   incluirMovimentacao(valor) {
@@ -83,21 +89,26 @@ export class OrdemComponent implements OnInit {
 
   alterarStatus(id, status) {
     this.dataService.alterarStatusIdTQ(id, status);
+    this.change();
   }
 
   alterarDelivery(id) {
     this.dataService.alterarDeliveryIdTQ(id);
+    this.change();
+
   }
 
   alterarPrioridade(id) {
     this.dataService.alterarPrioridadeIdTQ(id);
+    this.change();
   }
 
   alterarObservacao(ordemid, valor) {
     this.dataService.alterarObservacaoIdTQ(ordemid, valor);
+    this.change();
   }
 
-  getQuantidade(itens){
+  getQuantidade(itens) {
     var a = 0;
     for (var x in itens) {
       a = a + Number(itens[x].quantidadeSolicitada);
@@ -111,6 +122,10 @@ export class OrdemComponent implements OnInit {
       a = a + (Number(itens[x].valor) * Number(itens[x].quantidadeSolicitada));
     }
     return a;
+  }
+
+  change() {
+    this.ordens = this.dataService.data;
   }
 
 }

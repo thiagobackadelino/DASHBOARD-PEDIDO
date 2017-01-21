@@ -20,6 +20,8 @@ export class OrdemItemSelecaoComponent implements OnInit {
   itemSelecionado: any;
   comparativo: number = 0;
   data: any = [];
+  ordem: any = [];
+  itensParaAdd: any = [];
   constructor(private itensService: ItensService, private dataService: DataServiceOrdem,
     private route: ActivatedRoute,
     private router: Router) {
@@ -34,30 +36,50 @@ export class OrdemItemSelecaoComponent implements OnInit {
   }
 
   montarPedido(event, item) {
-    //console.table(this.itensSelecionados);
-    if (this.itensSelecionados.length == 0) {
-      /*item.feito = false;*/
+    if (!this.existeDeterminadoItemNaLista(item)) {
       item.quantidadeSolicitada = event.novoValor;
       this.itensSelecionados.push(item);
-    } else {
-      /*item.feito = false;*/
-      item.quantidadeSolicitada = event.novoValor;
-      // console.log(this.existeDeterminadoItemNaLista(item));
-      if (!this.existeDeterminadoItemNaLista(item)) {
-        if (item.quantidadeSolicitada == 0) {
-        } else if (item.quantidadeSolicitada > 0) {
-          this.itensSelecionados.push(item);
-        }
-      } else if (this.existeDeterminadoItemNaLista(item)) {
-        if (item.quantidadeSolicitada == 0) {
+    } else if (this.existeDeterminadoItemNaLista(item)) {
+      for (var x in this.itensSelecionados) {
+        if (this.itensSelecionados[x]._id === item._id) {
+          this.itensSelecionados[x].quantidadeSolicitada = event.novoValor;
         }
       }
     }
+    // console.table(this.itensSelecionados);
   }
 
   existeDeterminadoItemNaLista(item) {
     for (var x in this.itensSelecionados) {
       if (this.itensSelecionados[x]._id === item._id) {
+        this.comparativo++;
+      }
+    }
+    if (this.comparativo >= 1) {
+      this.comparativo = 0;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  existeDeterminadoItemNaListaData(item) {
+    for (var x in this.ordem.itens) {
+      if (this.ordem.itens[x]._id === item._id) {
+        this.comparativo++;
+      }
+    }
+    if (this.comparativo >= 1) {
+      this.comparativo = 0;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  existeDeterminadoitensParaAdd(item) {
+    for (var x in this.itensParaAdd) {
+      if (this.itensParaAdd[x]._id === item._id) {
         this.comparativo++;
       }
     }
@@ -79,37 +101,77 @@ export class OrdemItemSelecaoComponent implements OnInit {
 
 
   editarItem(id) {
-    //console.table(this.itensSelecionados);
+    // console.table(this.itensSelecionados);
     this.dataService.getDocumentById(id).then((data) => {
-      this.data = data[0];
-      if (this.data.itens.length == 0) {
-        this.data.itens = this.itensSelecionados;
+      // this.data = data[0];
+      this.ordem = data[0];
+      if (this.ordem.itens.length === 0) {
+        //console.log("Comanda SEM itens , inserindo valores selecionados");
+        this.ordem.itens = this.itensSelecionados;
+        console.log(this.ordem.itens);
       } else {
-        for (var x in this.itensSelecionados) {
-          for (var y in this.data.itens) {
-            if (this.data.itens[y] != null) {
-              if (!this.existeDeterminadoItemNaLista(this.data.itens[y])) {
-                // console.log("nao existe -- " + this.itensSelecionados[x].nome)
-                if (this.itensSelecionados[x].quantidadeSolicitada > 0) {
-                  this.data.itens.push(this.itensSelecionados[x]);
-                }
+        //  console.log("Comanda COM itens , inserir valores selecionados");
+        if (this.ordem.itens.length < this.itensSelecionados.length) {
+          //  console.log("Comanda COM menos itens que valores selecionados");
+          for (var a in this.itensSelecionados) {
+            for (var b in this.ordem.itens) {
+              //console.log(this.existeDeterminadoItemNaListaData(this.itensSelecionados[a]));
+              // console.log(this.itensSelecionados[a].nome + " -- " + this.ordem.itens[b].nome);
+              if (this.itensSelecionados[a].quantidadeSolicitada != this.ordem.itens[b].quantidadeSolicitada
+                && this.itensSelecionados[a]._id == this.ordem.itens[b]._id
+                && this.itensSelecionados[a].quantidadeSolicitada > 0) {
+                //  console.log(this.itensSelecionados[a].quantidadeSolicitada + " -- " + this.ordem.itens[b].quantidadeSolicitada);
+                this.ordem.itens[b].quantidadeSolicitada = this.itensSelecionados[a].quantidadeSolicitada;
               }
-              if (this.existeDeterminadoItemNaLista(this.data.itens[y])) {
-                // console.log("  existe -- " + this.itensSelecionados[x].nome)
-                if (this.data.itens[y]._id == this.itensSelecionados[x]._id) {
-                  if (this.itensSelecionados[x].quantidadeSolicitada > 0) {
-                    this.data.itens[y].quantidadeSolicitada = this.itensSelecionados[x].quantidadeSolicitada;
-                  } else if (this.itensSelecionados[x].quantidadeSolicitada == 0) {
-                    this.data.itens.splice(y, 1);
-                  }
-                }
+              if (!this.existeDeterminadoItemNaListaData(this.itensSelecionados[a])
+                && this.itensSelecionados[a].quantidadeSolicitada > 0) {
+                //  console.log("inserindo " + this.itensSelecionados[a].nome);
 
+                this.ordem.itens.push(this.itensSelecionados[a]);
+              }
+
+              if (this.itensSelecionados[a].quantidadeSolicitada != this.ordem.itens[b].quantidadeSolicitada
+                && this.itensSelecionados[a]._id == this.ordem.itens[b]._id
+                && this.itensSelecionados[a].quantidadeSolicitada == 0) {
+                //console.log(this.itensSelecionados[a].quantidadeSolicitada + " -- " + this.ordem.itens[b].quantidadeSolicitada);
+                //console.log("r");
+                this.ordem.itens.splice(b, 1);
               }
             }
           }
+        } else if (this.ordem.itens.length >= this.itensSelecionados.length) {
+          // console.log("Comanda COM mais itens que valores selecionados");
+          for (var c in this.ordem.itens) {
+            for (var d in this.itensSelecionados) {
+              //console.log(this.existeDeterminadoItemNaListaData(this.itensSelecionados[d]));
+              //console.log(this.ordem.itens[c].nome + " -- " + this.itensSelecionados[d].nome);
+              if (this.itensSelecionados[d].quantidadeSolicitada != this.ordem.itens[c].quantidadeSolicitada
+                && this.itensSelecionados[d]._id == this.ordem.itens[c]._id
+                && this.itensSelecionados[d].quantidadeSolicitada > 0) {
+                // console.log(this.itensSelecionados[d].quantidadeSolicitada + " -- " + this.ordem.itens[c].quantidadeSolicitada);
+                this.ordem.itens[c].quantidadeSolicitada = this.itensSelecionados[d].quantidadeSolicitada;
+              }
+              if (!this.existeDeterminadoItemNaListaData(this.itensSelecionados[d])
+                && this.itensSelecionados[d].quantidadeSolicitada > 0) {
+                // console.log("inserindo " + this.itensSelecionados[d].nome);
+                this.ordem.itens.push(this.itensSelecionados[d]);
+              }
+
+              if (this.itensSelecionados[d].quantidadeSolicitada != this.ordem.itens[c].quantidadeSolicitada
+                && this.itensSelecionados[d]._id == this.ordem.itens[c]._id
+                && this.itensSelecionados[d].quantidadeSolicitada == 0) {
+                // console.log(this.itensSelecionados[d].quantidadeSolicitada + " -- " + this.ordem.itens[c].quantidadeSolicitada);
+                //  console.log("s");
+                this.ordem.itens.splice(c, 1);
+              }
+            }
+          }
+
         }
       }
-      this.dataService.addDocument(this.data);
+
+      this.dataService.addDocument(this.ordem);
+      this.itensParaAdd = [];
       this.itensSelecionados = [];
       this.router.navigate(['/home']);
     }).catch((ex) => {
