@@ -29,7 +29,7 @@ export class OrdemItemSelecaoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.itensService.initCall();
+    //this.itensService.initCall();
   }
 
   ngAfterViewInit() {

@@ -48,7 +48,7 @@ export class OrdemComponent implements OnInit {
     this.dataService.getOrdensDoDiaAtualPQ().then((data) => {
       this.ordens = data;
     }).catch((ex) => {
-      console.error('Error fetching getOrdensDoDiaAtualPQ', ex);
+      console.error('Error fetching getOrdensDoDiaAtualTQ', ex);
     });
   }
 

@@ -27,7 +27,7 @@ export class DataServiceOrdem {
 
     PouchDB.plugin(require('pouchdb-upsert'));
 
-    this.db = new PouchDB('dashboard-pedido-ordem');
+    this.db = new PouchDB('dashboard');
     //console.log(this.db.adapter);
 
     // cloudant login details
@@ -36,7 +36,7 @@ export class DataServiceOrdem {
 
     // cloudant, couchdb, couchbase remote url
     // eg - https://<your_host>.cloudant.com/todohttp://sonic:sonic@127.0.0.1:5984/
-    this.remote = 'http://sonic:sonic@127.0.0.1:5984/dashboard-pedido-ordem';
+    this.remote = 'http://sonic:sonic@192.168.68.8:5984/dashboard';
 
     // cloudant, couchdb, couchbase remote url
     // applicable when username/password set. 
@@ -191,8 +191,9 @@ export class DataServiceOrdem {
 
   //Persistent queries
   getOrdensDoDiaAtualPQ() {
+     var date     = this.getDiaAtual()
     return new Promise(resolve => {
-      var emit = "function (doc) { emit(doc.name); }" // <------ OK 
+      var emit = "function (doc) { emit(doc.data); }" // <------ OK 
       var ddoc = {
         _id: '_design/dia_atual',
         views: {
@@ -211,8 +212,11 @@ export class DataServiceOrdem {
       });
 
       this.db.query('dia_atual/by_name', {
-        include_docs: true
+        include_docs: true,
+        key: date
       }).then((result) => {
+        console.log(date);
+          console.log(result);
         // index was built! 
         this.data = [];
         let docs = result.rows.map((row) => {
