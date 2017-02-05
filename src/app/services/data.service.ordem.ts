@@ -36,7 +36,7 @@ export class DataServiceOrdem {
 
     // cloudant, couchdb, couchbase remote url
     // eg - https://<your_host>.cloudant.com/todohttp://sonic:sonic@127.0.0.1:5984/
-    this.remote = 'http://sonic:sonic@192.168.68.8:5984/dashboard';
+    this.remote = 'http://admin:password@127.0.0.1:5984/dashboard';
 
     // cloudant, couchdb, couchbase remote url
     // applicable when username/password set. 
@@ -174,7 +174,6 @@ export class DataServiceOrdem {
     //console.table(this.data);
   }
 
-
   //Temporary queries
   getOrdensPorStatusTQ(status) {
     return new Promise(resolve => {
@@ -215,8 +214,6 @@ export class DataServiceOrdem {
         include_docs: true,
         key: date
       }).then((result) => {
-        console.log(date);
-          console.log(result);
         // index was built! 
         this.data = [];
         let docs = result.rows.map((row) => {

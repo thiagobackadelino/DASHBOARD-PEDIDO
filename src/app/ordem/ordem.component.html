@@ -1,32 +1,31 @@
- <div class="row">
+<div class="row">
   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
     <h4 class="card-title">Ordens em Aberto</h4>
     <div *ngFor="let ordem of ordens">
       <div class="card" *ngIf="ordem.status == 'ABERTA'">
-        <div class="card-header">
-          <button type="button" class="btn" [ngClass]="{
+        <div class="card-header"> 
+            <button type="button" class="btn" [ngClass]="{
               'btn-danger': ordem.prioridade == true,
               'btn-outline-secondary': ordem.prioridade == false 
             }" (click)="alterarPrioridade(ordem._id);">
         <span class="glyphicon glyphicon-exclamation-sign"></span>
-      </button>
-          <button type="button" class="btn" [ngClass]="{
+      </button>  
+            <button type="button" class="btn" [ngClass]="{
               'btn-danger': ordem.delivery == true,
               'btn-outline-secondary': ordem.delivery == false 
             }" (click)="alterarDelivery(ordem._id);">
         <span class="glyphicon glyphicon-road"></span>
-      </button>
-          <button type="button" class="btn btn-outline-success" (click)="adicionarItens(ordem);"><span  
+      </button>  
+            <button type="button" class="btn btn-outline-success" (click)="adicionarItens(ordem);"><span  
               class="glyphicon" [ngClass]="{
               'glyphicon-plus': ordem.itens.length == '0',
               'glyphicon-pencil': ordem.itens.length >= '1' 
             }"
               > 
-              </span></button>
-          <button (click)="excluirOrdem(ordem._id);" type="button" class="btn btn-outline-danger"><span 
+              </span></button>  
+            <button (click)="excluirOrdem(ordem._id);" type="button" class="btn btn-outline-danger"><span 
               class="glyphicon glyphicon-trash"> 
-              </span></button>
-
+              </span></button> 
         </div>
         <div class="card" [ngClass]="{
               'card-inverse card-info': ordem.status == 'ABERTA',
@@ -48,7 +47,7 @@
               <span style="color:white; white-space:nowrap;">{{item.quantidadeFeita}} / {{item.quantidadeSolicitada}}</span>
 </progressbar>
 </li>
-</ul> 
+</ul>
 <div class="form-group">
   <textarea class="form-control" id="#" [attr.id]="'#' + ordem.nome | removeSpaces" rows="2" placeholder="Observação" type="text"
     [(ngModel)]="ordem.observacao" (keyup.enter)="alterarObservacao(ordem._id,ordem.observacao)" (blur)="alterarObservacao(ordem._id,ordem.observacao)"></textarea>
@@ -177,15 +176,15 @@
         <p><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" (click)="alterarStatus(ordem._id,'ABERTA');"></span>
           <span class="glyphicon glyphicon-dashboard" aria-hidden="true" (click)="alterarStatus(ordem._id,'EM PROGRESSO');"></span>
           <span class="glyphicon glyphicon-ok-sign" aria-hidden="true" (click)="alterarStatus(ordem._id,'ENTREGUE');"></span>
-      </div> 
-      <ul class="list-group list-group-flush" *ngFor="let item of ordem.itens"> 
+      </div>
+      <ul class="list-group list-group-flush" *ngFor="let item of ordem.itens">
         <li class="list-group-item ">
           {{item.nome}} - {{item.quantidadeSolicitada}}
           <progressbar [max]="item.quantidadeSolicitada" [value]="item.quantidadeFeita" (click)="alterarStatusDoItem(ordem._id,item._id)">
             <span style="color:white; white-space:nowrap;">{{item.quantidadeFeita}} / {{item.quantidadeSolicitada}}</span>
 </progressbar>
 </li>
-</ul> 
+</ul>
 <div class="form-group">
   <textarea class="form-control" id="#" [attr.id]="'#' + ordem.nome | removeSpaces" rows="2" placeholder="Observação" type="text"
     [(ngModel)]="ordem.observacao" (keyup.enter)="alterarObservacao(ordem._id,ordem.observacao)" (blur)="alterarObservacao(ordem._id,ordem.observacao)"></textarea>
